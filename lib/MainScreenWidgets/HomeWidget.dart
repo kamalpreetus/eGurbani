@@ -11,49 +11,30 @@ class HomePageWidget extends StatefulWidget {
 }
 
 class _HomePageWidgetState extends State<HomePageWidget> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: new EcommerceTwoPage(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+    return FloatingSearchWidget();
+  }
+
+  Widget searchField() {
+    return TextField(
+      autofocus: true,
+      decoration: InputDecoration(
+          hintText: "search",
+          prefixIcon: Icon(Icons.search),
+          suffixIcon: IconButton(
+            icon: Icon(Icons.close),
+            onPressed: (){
+              print("cancel");
+            },
+          ),
+          fillColor: Colors.white,
+          filled: true),
     );
   }
-}
 
-class MyListView extends StatelessWidget {
-  int _counter;
-  MyListView(this._counter);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            'You have pushed the button this many times:',
-          ),
-          Text(
-            '$_counter',
-            style: Theme.of(context).textTheme.display1,
-          ),
-        ],
-      ),
-    );
+  void onChangedText() {
+    print("Text changed\n");
   }
 }
