@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'BottomNavigationBarWidget.dart';
 import 'SearchWidget.dart';
 
 class HomePageWidget extends StatefulWidget {
@@ -11,30 +12,13 @@ class HomePageWidget extends StatefulWidget {
 }
 
 class _HomePageWidgetState extends State<HomePageWidget> {
-
   @override
   Widget build(BuildContext context) {
-    return FloatingSearchWidget();
-  }
-
-  Widget searchField() {
-    return TextField(
-      autofocus: true,
-      decoration: InputDecoration(
-          hintText: "search",
-          prefixIcon: Icon(Icons.search),
-          suffixIcon: IconButton(
-            icon: Icon(Icons.close),
-            onPressed: (){
-              print("cancel");
-            },
-          ),
-          fillColor: Colors.white,
-          filled: true),
+    return Scaffold(
+      body: FloatingSearchWidget(),
+      bottomNavigationBar: new BottomNavigationBarWidget(),
     );
   }
-
-  void onChangedText() {
-    print("Text changed\n");
-  }
 }
+
+

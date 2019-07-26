@@ -10,12 +10,14 @@ class FloatingSearchWidget extends StatefulWidget {
 class _FloatingSearchWidgetState extends State<FloatingSearchWidget> {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Container(
+      padding: EdgeInsets.all(10),
+      color: Colors.amber,
       child: FloatingSearchBar.builder(
         itemCount: 100,
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
-            leading: Text("List Tile"),
+            title: Text("Title"),
           );
         },
         trailing: new SearchSettingsWidget(), // should this be stateful?

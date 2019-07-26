@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'MainScreenWidgets/HomeWidget.dart';
-import 'databasereader.dart';
+import 'package:flutter2/Model/databaseReader.dart';
 
 void main() => runApp(MyApp());
 
