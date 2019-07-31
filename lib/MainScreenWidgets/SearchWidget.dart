@@ -8,27 +8,66 @@ class FloatingSearchWidget extends StatefulWidget {
 }
 
 class _FloatingSearchWidgetState extends State<FloatingSearchWidget> {
+  final searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    searchController.addListener(_printLatestValue);
+    // add listener to update listview
+//    searchController.addListener(_updateListView);
+  }
+
+  void _printLatestValue() {
+    print("Second text field: ${searchController.text}");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(10),
-      color: Colors.amber,
-      child: FloatingSearchBar.builder(
-        itemCount: 100,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text("Title"),
-          );
-        },
-        trailing: new SearchSettingsWidget(), // should this be stateful?
-        drawer: Drawer(
-          child: Container(),
-        ),
-        onChanged: (String value) {},
-        onTap: () {},
-        decoration: InputDecoration.collapsed(
-          hintText: "Search...",
-        ),
+      //color: Colors.amber,
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(top: 25.0),
+            child: Row(
+              children: <Widget>[
+                Icon(
+                  Icons.keyboard_arrow_down,
+                  color: Colors.black,
+                  size: 60.0,
+                ),
+                Flexible(
+                  child: TextField(
+                    onChanged: (value) {},
+                    onTap: () {},
+                    controller: searchController,
+                    decoration: InputDecoration(
+                        labelText: "Search",
+                        hintText: "Search",
+                        prefixIcon: Icon(Icons.search),
+                        suffixIcon: IconButton(icon: Icon(Icons.clear), onPressed: () => searchController.clear()),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(30.0)))),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: 60,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text('List tile'),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -53,4 +92,5 @@ class SearchSettingsWidget extends StatelessWidget {
       backgroundColor: Colors.transparent,
     );
   }
+
 }

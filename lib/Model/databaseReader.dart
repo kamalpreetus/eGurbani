@@ -4,6 +4,8 @@ import 'package:path/path.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 
+import 'QueryResult.dart';
+
 
 class DatabaseReader
 {
@@ -12,7 +14,7 @@ class DatabaseReader
   ///
   /// Returns the database. Make sure you close the Database after
   /// using it.
-  void runQuery() async {
+  Future<List<QueryResult>> runQuery() async {
     // Get a location using getDatabasesPath
     var databasesPath = await getDatabasesPath();
     String path = join(databasesPath, DB_NAME);
@@ -42,24 +44,18 @@ class DatabaseReader
     }
     // open the database
     Database db = await openDatabase(path, readOnly: true);
-    print("DB>TOSTRING >> " + db.toString());
+    List<Map> list = await db.rawQuery('SELECT * FROM lines WHERE first_letters LIKE "\%hhhh\%" ORDER BY order_id');
 
-    // Get the records
-    List<Map> list = await db.rawQuery('SELECT * FROM sources');
-    print("SEE THIS 2 > " + list.toList().toString());
-
-    for (var i in list) {
-      print(i.values.toString() + "\n");
+    List<QueryResult> resultList = new List<QueryResult>();
+    for (var a in list) {
+      resultList.add(new QueryResult(a["shabad_id"], a["source_page"],
+                                    a["first_letters"], a["gurmukhi"]));
+      print("val " + a["first_letters"]);
     }
 
-    await db.close();
-  }
+    //await db.close();
 
-  void runQuery2(String sqlQuery) {
-    // get the database
-    //Future<Database> db = getDatabase();
-
-    // run the query
+    return resultList;
   }
 
 }
