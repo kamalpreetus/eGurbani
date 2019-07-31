@@ -34,10 +34,16 @@ class _FloatingSearchWidgetState extends State<FloatingSearchWidget> {
             padding: const EdgeInsets.only(top: 25.0),
             child: Row(
               children: <Widget>[
-                Icon(
-                  Icons.keyboard_arrow_down,
-                  color: Colors.black,
-                  size: 60.0,
+                Container(
+                  child: Icon(
+                    Icons.keyboard_arrow_down,
+                    color: Colors.black,
+                    size: 60.0,
+                  ),
+                  decoration: new BoxDecoration(
+                    border: new Border.all(color: Colors.blueAccent, width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(30.0))
+                  ) ,
                 ),
                 Flexible(
                   child: TextField(
@@ -49,8 +55,8 @@ class _FloatingSearchWidgetState extends State<FloatingSearchWidget> {
                         hintText: "Search",
                         prefixIcon: Icon(Icons.search),
                         suffixIcon: IconButton(icon: Icon(Icons.clear), onPressed: () => searchController.clear()),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(30.0)))),
+                        border: OutlineInputBorder( // NOT WORKING, WHY?
+                            borderRadius: BorderRadius.all(Radius.circular(30.0)), borderSide: BorderSide(color: Colors.blueAccent, width: 5.5))),
                   ),
                 ),
               ],
