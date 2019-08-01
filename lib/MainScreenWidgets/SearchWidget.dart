@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:floating_search_bar/floating_search_bar.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter2/Model/databaseReader.dart';
 
 class FloatingSearchWidget extends StatefulWidget {
   @override
@@ -25,6 +26,9 @@ class _FloatingSearchWidgetState extends State<FloatingSearchWidget> {
 
   @override
   Widget build(BuildContext context) {
+
+    DatabaseReader db = new DatabaseReader();
+
     return Container(
       padding: EdgeInsets.all(10),
       //color: Colors.amber,
@@ -63,14 +67,29 @@ class _FloatingSearchWidgetState extends State<FloatingSearchWidget> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: 60,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text('List tile'),
+            child: FutureBuilder(
+              future: db.runQuery(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+
+                if (snapshot.data == null) {
+                  return Container(
+                    child: Center(
+                      child: Text("Loading..."),
+                    ),
+                  );
+                }
+
+                return ListView.builder(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (context, index) {
+                      return ListTile(
+                        leading: CircleAvatar(),
+                        trailing: Text(snapshot.data[index].sourcePage.toString()),
+                        title: Text(snapshot.data[index].gurmukhi, style: TextStyle(fontFamily: 'GurmukhiWebThick')),
+                      );
+                  },
                 );
-              },
+              }
             ),
           ),
         ],
