@@ -25,101 +25,115 @@ class _FloatingSearchWidgetState extends State<FloatingSearchWidget> {
     print("Second text field: ${searchController.text}");
   }
 
+
+  openFilterDialog(BuildContext context) {
+    print("Filter button clicked");
+
+  }
+
   @override
   Widget build(BuildContext context) {
 
     DatabaseReader db = new DatabaseReader();
 
+    List<Widget> searchBarChildren = [
+      Padding(
+        padding: const EdgeInsets.only(right: 8.0),
+        child: InkWell(
+          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+          onTap: () => _showDialog(),
+          child: Container(
+            child: Icon(
+              Icons.filter_list,
+              color: Colors.black,
+              size: 60.0,
+            ),
+            decoration: new BoxDecoration(
+                border: new Border.all(color: Colors.black, width: 2.0),
+                borderRadius: BorderRadius.all(Radius.circular(25.0))
+            ) ,
+          ),
+        ),
+      ),
+      Flexible(
+        child: TextField(
+          onChanged: (value) {},
+          onTap: () {},
+          controller: searchController,
+          decoration: InputDecoration(
+              labelText: "Search",
+              hintText: "Search",
+              prefixIcon: Icon(Icons.search),
+              suffixIcon: InkWell(
+                borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                child: Icon(Icons.clear),
+                  onTap: () => searchController.clear()
+              ),
+              border: OutlineInputBorder( // NOT WORKING, WHY?
+                  borderRadius: BorderRadius.all(Radius.circular(30.0)
+                  ), borderSide: BorderSide(color: Colors.blueAccent, width: 5.5))),
+        ),
+      ),
+    ];
+
+    List<Widget> mainScreenChildren = [
+      Padding(
+        padding: const EdgeInsets.only(top: 25.0, bottom: 5.0),
+        child: Row(
+            children: searchBarChildren
+        ),
+      ),
+      Expanded(
+        child: FutureBuilder(
+            future: db.runQuery(Choices.FirstLetterStart),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+
+              if (snapshot.data == null) {
+                return Container(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+
+              return ListView.builder(
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    leading: CircleAvatar(),
+                    trailing: Text(snapshot.data[index].sourcePage.toString()),
+                    title: Text(snapshot.data[index].gurmukhi, style: TextStyle(fontFamily: 'GurmukhiWebThick')),
+                  );
+                },
+              );
+            }
+        ),
+      ),
+    ];
+
     return Container(
       padding: EdgeInsets.all(10),
       //color: Colors.amber,
       child: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(top: 25.0, bottom: 5.0),
-            child: Row(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: Container(
-                    child: Icon(
-                      Icons.filter_list,
-                      color: Colors.black,
-                      size: 60.0,
-                    ),
-                    decoration: new BoxDecoration(
-                      border: new Border.all(color: Colors.black, width: 2.0),
-                      borderRadius: BorderRadius.all(Radius.circular(25.0))
-                    ) ,
-                  ),
-                ),
-                Flexible(
-                  child: TextField(
-                    onChanged: (value) {},
-                    onTap: () {},
-                    controller: searchController,
-                    decoration: InputDecoration(
-                        labelText: "Search",
-                        hintText: "Search",
-                        prefixIcon: Icon(Icons.search),
-                        suffixIcon: IconButton(icon: Icon(Icons.clear), onPressed: () => searchController.clear()),
-                        border: OutlineInputBorder( // NOT WORKING, WHY?
-                            borderRadius: BorderRadius.all(Radius.circular(30.0)), borderSide: BorderSide(color: Colors.blueAccent, width: 5.5))),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: FutureBuilder(
-              future: db.runQuery(Choices.FirstLetterStart),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-
-                if (snapshot.data == null) {
-                  return Container(
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                }
-
-                return ListView.builder(
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (context, index) {
-                      return ListTile(
-                        leading: CircleAvatar(),
-                        trailing: Text(snapshot.data[index].sourcePage.toString()),
-                        title: Text(snapshot.data[index].gurmukhi, style: TextStyle(fontFamily: 'GurmukhiWebThick')),
-                      );
-                  },
-                );
-              }
-            ),
-          ),
-        ],
+        children: mainScreenChildren,
       ),
     );
   }
-}
 
-class SearchSettingsWidget extends StatelessWidget {
-  const SearchSettingsWidget({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return CircleAvatar(
-      child: InkWell(
-        child: Icon(
-            CupertinoIcons.settings_solid,
-            color: Colors.black,
-            size: 40.0,
-        ),
-        onTap: () => print("CircleAvatar onTap"),
-      ),
-      backgroundColor: Colors.transparent,
-    );
-  }
-
+  void _showDialog() {
+    // flutter defined function
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        // return object of type Dialog
+        return Dialog(
+          child: new Column(
+            children: <Widget>[
+              Text("Mode"),
+              
+            ],
+          ),
+        );
+      },
+    );   }
 }

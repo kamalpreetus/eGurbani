@@ -16,18 +16,16 @@ class DatabaseReader
   /// using it.
   Future<List<QueryResult>> runQuery(Choices choices) async {
 
-    List<QueryResult> resultList2 = new List<QueryResult>();
     Database db = await getDatabase();
+    List<QueryResult> resultList = new List<QueryResult>();
+    List<Map> resultFromDB = new List<Map>();
 
     switch(choices) {
       case Choices.Ang:
         return null;
       case Choices.FirstLetterStart:
-        // Get a location using getDatabasesPath
-        List<Map> list = await db.rawQuery('SELECT * FROM lines WHERE first_letters LIKE "\%hhhh\%" ORDER BY order_id');
-
-        List<QueryResult> resultList = new List<QueryResult>();
-        for (var a in list) {
+        resultFromDB = await db.rawQuery('SELECT * FROM lines WHERE first_letters LIKE "\%hhhh\%" ORDER BY order_id');
+        for (var a in resultFromDB) {
           resultList.add(new QueryResult(
               a["shabad_id"],
               a["source_page"],
@@ -50,7 +48,7 @@ class DatabaseReader
         break;
     }
 
-    return resultList2;
+    return resultList;
   }
 
   Future<Database> getDatabase() async {
