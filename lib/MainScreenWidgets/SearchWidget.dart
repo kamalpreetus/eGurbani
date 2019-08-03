@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:floating_search_bar/floating_search_bar.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter2/Model/Choices.dart';
 import 'package:flutter2/Model/databaseReader.dart';
 
 class FloatingSearchWidget extends StatefulWidget {
@@ -35,19 +36,22 @@ class _FloatingSearchWidgetState extends State<FloatingSearchWidget> {
       child: Column(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(top: 25.0),
+            padding: const EdgeInsets.only(top: 25.0, bottom: 5.0),
             child: Row(
               children: <Widget>[
-                Container(
-                  child: Icon(
-                    Icons.keyboard_arrow_down,
-                    color: Colors.black,
-                    size: 60.0,
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Container(
+                    child: Icon(
+                      Icons.filter_list,
+                      color: Colors.black,
+                      size: 60.0,
+                    ),
+                    decoration: new BoxDecoration(
+                      border: new Border.all(color: Colors.black, width: 2.0),
+                      borderRadius: BorderRadius.all(Radius.circular(25.0))
+                    ) ,
                   ),
-                  decoration: new BoxDecoration(
-                    border: new Border.all(color: Colors.blueAccent, width: 2.0),
-                    borderRadius: BorderRadius.all(Radius.circular(30.0))
-                  ) ,
                 ),
                 Flexible(
                   child: TextField(
@@ -68,13 +72,13 @@ class _FloatingSearchWidgetState extends State<FloatingSearchWidget> {
           ),
           Expanded(
             child: FutureBuilder(
-              future: db.runQuery(),
+              future: db.runQuery(Choices.FirstLetterStart),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
 
                 if (snapshot.data == null) {
                   return Container(
                     child: Center(
-                      child: Text("Loading..."),
+                      child: CircularProgressIndicator(),
                     ),
                   );
                 }

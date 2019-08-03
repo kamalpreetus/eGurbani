@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'MainScreenWidgets/HomeWidget.dart';
 import 'package:flutter2/Model/databaseReader.dart';
 
+import 'Model/Choices.dart';
 import 'Model/QueryResult.dart';
 
 void main() => runApp(MyApp());
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     DatabaseReader db = new DatabaseReader();
-    Future<List<QueryResult>> l = db.runQuery();
+    Future<List<QueryResult>> l = db.runQuery(Choices.FirstLetterStart);
 
     return MaterialApp(
       title: 'eGurbani',

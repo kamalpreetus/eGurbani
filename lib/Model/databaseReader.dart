@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:flutter/services.dart';
-import 'package:path_provider/path_provider.dart';
 
+import 'Choices.dart';
 import 'QueryResult.dart';
 
 
@@ -14,8 +14,46 @@ class DatabaseReader
   ///
   /// Returns the database. Make sure you close the Database after
   /// using it.
-  Future<List<QueryResult>> runQuery() async {
-    // Get a location using getDatabasesPath
+  Future<List<QueryResult>> runQuery(Choices choices) async {
+
+    List<QueryResult> resultList2 = new List<QueryResult>();
+    Database db = await getDatabase();
+
+    switch(choices) {
+      case Choices.Ang:
+        return null;
+      case Choices.FirstLetterStart:
+        // Get a location using getDatabasesPath
+        List<Map> list = await db.rawQuery('SELECT * FROM lines WHERE first_letters LIKE "\%hhhh\%" ORDER BY order_id');
+
+        List<QueryResult> resultList = new List<QueryResult>();
+        for (var a in list) {
+          resultList.add(new QueryResult(
+              a["shabad_id"],
+              a["source_page"],
+              a["first_letters"],
+              a["gurmukhi"]));
+          print("val " + a["first_letters"]);
+        }
+        return resultList;
+      case Choices.FirstLetterAnywhere:
+        return null;
+        break;
+      case Choices.ExactWordGurmukhi:
+        return null;
+        break;
+      case Choices.ExactWordEnglish:
+        return null;
+        break;
+      case Choices.Bani:
+        return null;
+        break;
+    }
+
+    return resultList2;
+  }
+
+  Future<Database> getDatabase() async {
     var databasesPath = await getDatabasesPath();
     String path = join(databasesPath, DB_NAME);
 
@@ -44,18 +82,7 @@ class DatabaseReader
     }
     // open the database
     Database db = await openDatabase(path, readOnly: true);
-    List<Map> list = await db.rawQuery('SELECT * FROM lines WHERE first_letters LIKE "\%hhhh\%" ORDER BY order_id');
-
-    List<QueryResult> resultList = new List<QueryResult>();
-    for (var a in list) {
-      resultList.add(new QueryResult(a["shabad_id"], a["source_page"],
-                                    a["first_letters"], a["gurmukhi"]));
-      print("val " + a["first_letters"]);
-    }
-
-    //await db.close();
-
-    return resultList;
+    return db;
   }
 
 }
