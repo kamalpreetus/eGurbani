@@ -4,6 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter2/Model/Choices.dart';
 import 'package:flutter2/Model/databaseReader.dart';
 
+import 'FilterTile.dart';
+import 'MyCustomDialog.dart';
+
 class FloatingSearchWidget extends StatefulWidget {
   @override
   _FloatingSearchWidgetState createState() => _FloatingSearchWidgetState();
@@ -11,6 +14,9 @@ class FloatingSearchWidget extends StatefulWidget {
 
 class _FloatingSearchWidgetState extends State<FloatingSearchWidget> {
   final searchController = TextEditingController();
+  bool checkboxValueCity = false;
+  List<String> allCities = ['Alpha', 'Beta', 'Gamma'];
+  List<String> selectedCities = [];
 
   @override
   void initState() {
@@ -41,7 +47,18 @@ class _FloatingSearchWidgetState extends State<FloatingSearchWidget> {
         padding: const EdgeInsets.only(right: 8.0),
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(25.0)),
-          onTap: () => _showDialog(),
+          onTap: () => showDialog(
+            context: context,
+            builder: (context) {
+              return _CustomSimpleDialog(
+                  cities: allCities,
+                  selectedCities: selectedCities,
+                  onSelectedCitiesListChanged: (cities) {
+                    selectedCities = cities;
+                    print(selectedCities);
+                  });
+            }
+          ),
           child: Container(
             child: Icon(
               Icons.filter_list,
@@ -120,20 +137,55 @@ class _FloatingSearchWidgetState extends State<FloatingSearchWidget> {
     );
   }
 
-  void _showDialog() {
-    // flutter defined function
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        // return object of type Dialog
-        return Dialog(
-          child: new Column(
-            children: <Widget>[
-              Text("Mode"),
-              
-            ],
-          ),
-        );
-      },
-    );   }
+
+}
+
+class _CustomSimpleDialog extends StatefulWidget {
+  _CustomSimpleDialog({
+    this.cities,
+    this.selectedCities,
+    this.onSelectedCitiesListChanged,
+  });
+
+  final List<String> cities;
+  final List<String> selectedCities;
+  final ValueChanged<List<String>> onSelectedCitiesListChanged;
+
+  @override
+  _CustomSimpleDialogState createState() => _CustomSimpleDialogState();
+}
+
+class _CustomSimpleDialogState extends State<_CustomSimpleDialog> {
+  String newModeOption;
+  List<String> modeOptions = [
+    "First Letter Start",
+    "First Letter Anywhere",
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SimpleDialog(
+      title: Text("Search filter"),
+      children: <Widget>[
+        FilterTile("Mode", [
+          "First Letter Start",
+          "First Letter Anywhere",
+          "Match Word (Gurmukhi)",
+          "Match Word (English)",
+          "Ang"
+        ]),
+        FilterTile("Scripture", [
+          "Guru Granth Sahib Ji",
+          "Dasam Granth Sahib Ji",
+          "Bhai Gurdas Ji Vaaran",
+          "Bhai Nand Lal Ji"
+        ]),
+      ],
+    );
+  }
 }
