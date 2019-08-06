@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:floating_search_bar/floating_search_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter2/Model/Choices.dart';
 import 'package:flutter2/Model/databaseReader.dart';
 
-import 'FilterTile.dart';
-import 'MyCustomDialog.dart';
+import 'Dialogs/CustomSimpleDialog.dart';
 
+/// search widget + filter button on the search screen
 class FloatingSearchWidget extends StatefulWidget {
   @override
   _FloatingSearchWidgetState createState() => _FloatingSearchWidgetState();
@@ -50,7 +49,7 @@ class _FloatingSearchWidgetState extends State<FloatingSearchWidget> {
           onTap: () => showDialog(
             context: context,
             builder: (context) {
-              return _CustomSimpleDialog(
+              return CustomSimpleDialog(
                   cities: allCities,
                   selectedCities: selectedCities,
                   onSelectedCitiesListChanged: (cities) {
@@ -137,55 +136,5 @@ class _FloatingSearchWidgetState extends State<FloatingSearchWidget> {
     );
   }
 
-
 }
 
-class _CustomSimpleDialog extends StatefulWidget {
-  _CustomSimpleDialog({
-    this.cities,
-    this.selectedCities,
-    this.onSelectedCitiesListChanged,
-  });
-
-  final List<String> cities;
-  final List<String> selectedCities;
-  final ValueChanged<List<String>> onSelectedCitiesListChanged;
-
-  @override
-  _CustomSimpleDialogState createState() => _CustomSimpleDialogState();
-}
-
-class _CustomSimpleDialogState extends State<_CustomSimpleDialog> {
-  String newModeOption;
-  List<String> modeOptions = [
-    "First Letter Start",
-    "First Letter Anywhere",
-  ];
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return SimpleDialog(
-      title: Text("Search filter"),
-      children: <Widget>[
-        FilterTile("Mode", [
-          "First Letter Start",
-          "First Letter Anywhere",
-          "Match Word (Gurmukhi)",
-          "Match Word (English)",
-          "Ang"
-        ]),
-        FilterTile("Scripture", [
-          "Guru Granth Sahib Ji",
-          "Dasam Granth Sahib Ji",
-          "Bhai Gurdas Ji Vaaran",
-          "Bhai Nand Lal Ji"
-        ]),
-      ],
-    );
-  }
-}

@@ -24,7 +24,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // using IndexedStack allow us to persist UI state, it keeps pages alive
+      /// using IndexedStack allows us to persist UI state, it keeps pages alive
       body: IndexedStack(
         index: _currentIndex,
         children: _children,
