@@ -1,30 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter2/MainScreenWidgets/SearchBar.dart';
 import 'package:flutter2/Model/Choices.dart';
 import 'package:flutter2/Model/QueryResult.dart';
 import 'package:flutter2/Model/databaseReader.dart';
 
 import 'Dialogs/CustomSimpleDialog.dart';
+import 'ResultListView.dart';
 
 /// search widget + filter button on the search screen
-class FloatingSearchWidget extends StatefulWidget {
+class SearchScreen extends StatefulWidget {
   @override
-  _FloatingSearchWidgetState createState() => _FloatingSearchWidgetState();
+  _SearchScreenState createState() => _SearchScreenState();
 }
 
-class _FloatingSearchWidgetState extends State<FloatingSearchWidget> {
+class _SearchScreenState extends State<SearchScreen> {
   DatabaseReader db = new DatabaseReader();
   final searchController = TextEditingController();
   ScrollController _listViewController = ScrollController();
   bool checkboxValueCity = false;
   List<String> allCities = ['Alpha', 'Beta', 'Gamma'];
   List<String> selectedCities = [];
-  Future<List<QueryResult>> items2;
+  Future<List<QueryResult>> queryResultList;
 
   @override
   void initState() {
     super.initState();
-    items2 = db.runQuery(Choices.FirstLetterStart, "qddqdK");
+    queryResultList = db.runQuery(Choices.FirstLetterStart, "qddqdK");
     _listViewController.addListener(_scrollListener);
     searchController.addListener(filterListview);
   }
@@ -39,10 +41,10 @@ class _FloatingSearchWidgetState extends State<FloatingSearchWidget> {
     print("Second text field: ${searchController.text}");
 
     int size = searchController.text.length;
-    if (size > 3) {
+    if (size > 2) {
         setState(() {
           print("text size is $size");
-          items2 = db.runQuery(Choices.FirstLetterStart, searchController.text);
+          queryResultList = db.runQuery(Choices.FirstLetterStart, searchController.text);
         });
     }
   }
@@ -86,23 +88,7 @@ class _FloatingSearchWidgetState extends State<FloatingSearchWidget> {
         ),
       ),
       Flexible(
-        child: TextField(
-          onChanged: (value) {},
-          onTap: () {},
-          controller: searchController,
-          decoration: InputDecoration(
-              labelText: "Search",
-              hintText: "Search",
-              prefixIcon: Icon(Icons.search),
-              suffixIcon: InkWell(
-                borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                child: Icon(Icons.clear),
-                  onTap: () => searchController.clear()
-              ),
-              border: OutlineInputBorder( // NOT WORKING, WHY?
-                  borderRadius: BorderRadius.all(Radius.circular(30.0)
-                  ), borderSide: BorderSide(color: Colors.black, width: 5.5))),
-        ),
+        child: new SearchBar(searchController: searchController),
       ),
     ];
 
@@ -114,30 +100,9 @@ class _FloatingSearchWidgetState extends State<FloatingSearchWidget> {
         ),
       ),
       Expanded(
-        child: FutureBuilder(
-            future: items2,
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-
-              if (snapshot.data == null) {
-                return Container(
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              }
-
-              return ListView.builder(
-                controller: _listViewController,
-                itemCount: snapshot.data.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: CircleAvatar(),
-                    trailing: Text(snapshot.data[index].sourcePage.toString()),
-                    title: Text(snapshot.data[index].gurmukhi, style: TextStyle(fontFamily: 'GurmukhiWebThick')),
-                  );
-                },
-              );
-            }
+        child: new ResultListViewWidget(
+            queryResultList: queryResultList, 
+            listViewController: _listViewController
         ),
       ),
     ];
@@ -151,4 +116,6 @@ class _FloatingSearchWidgetState extends State<FloatingSearchWidget> {
     );
   }
 }
+
+
 

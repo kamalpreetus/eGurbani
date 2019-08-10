@@ -36,19 +36,21 @@ class CustomSimpleDialogState extends State<CustomSimpleDialog> {
     return SimpleDialog(
       title: Text("Search filter"),
       children: <Widget>[
-        FilterTile("Mode", [
-          "First Letter Start",
-          "First Letter Anywhere",
-          "Match Word (Gurmukhi)",
-          "Match Word (English)",
-          "Ang"
-        ]),
-        FilterTile("Scripture", [
-          "Guru Granth Sahib Ji",
-          "Dasam Granth Sahib Ji",
-          "Bhai Gurdas Ji Vaaran",
-          "Bhai Nand Lal Ji"
-        ]),
+        FilterTile("Mode",
+            [
+              "First Letter Start",
+              "First Letter Anywhere",
+              "Match Word (Gurmukhi)",
+              "Match Word (English)",
+              "Ang"]),
+
+        FilterTile("Scripture",
+            [
+              "Guru Granth Sahib Ji",
+              "Dasam Granth Sahib Ji",
+              "Bhai Gurdas Ji Vaaran",
+              "Bhai Nand Lal Ji"
+            ]),
       ],
     );
   }

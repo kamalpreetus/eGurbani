@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'NitnemWidget.dart';
-import 'SearchWidget.dart';
+import 'SearchScreen.dart';
 
 class HomePageWidget extends StatefulWidget {
   HomePageWidget({Key key, this.title}) : super(key: key);
@@ -15,7 +15,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   int _currentIndex = 0;
 
   final List<Widget> _children = [
-    FloatingSearchWidget(),
+    SearchScreen(),
     NitnemWidget(Colors.deepOrange),
     NitnemWidget(Colors.green),
     NitnemWidget(Colors.blue)
@@ -36,7 +36,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               title: Text('Search'),
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.book, color: Colors.black),
+              icon: Icon(Icons.chrome_reader_mode, color: Colors.black),
               title: Text('Nitnem'),
             ),
             BottomNavigationBarItem(
@@ -59,7 +59,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
   void onTabTapped(int index) {
     print("onTap bottomNavBar item " + index.toString());
-
     setState(() {
       _currentIndex = index;
     });
