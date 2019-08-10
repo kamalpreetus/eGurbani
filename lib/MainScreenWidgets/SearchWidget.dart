@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter2/Model/Choices.dart';
+import 'package:flutter2/Model/QueryResult.dart';
 import 'package:flutter2/Model/databaseReader.dart';
 
 import 'Dialogs/CustomSimpleDialog.dart';
@@ -12,35 +13,48 @@ class FloatingSearchWidget extends StatefulWidget {
 }
 
 class _FloatingSearchWidgetState extends State<FloatingSearchWidget> {
+  DatabaseReader db = new DatabaseReader();
   final searchController = TextEditingController();
+  ScrollController _listViewController = ScrollController();
   bool checkboxValueCity = false;
   List<String> allCities = ['Alpha', 'Beta', 'Gamma'];
   List<String> selectedCities = [];
+  Future<List<QueryResult>> items2;
 
   @override
   void initState() {
     super.initState();
-
-    searchController.addListener(_printLatestValue);
-    // add listener to update listview
-//    searchController.addListener(_updateListView);
+    items2 = db.runQuery(Choices.FirstLetterStart, "qddqdK");
+    _listViewController.addListener(_scrollListener);
+    searchController.addListener(filterListview);
   }
 
-  void _printLatestValue() {
+  /// Hides keyboard when results listview is being scrolled
+  void _scrollListener() {
+    FocusScope.of(context).requestFocus(FocusNode());
+  }
+
+  /// Filters listview as query is being in search field
+  void filterListview() {
     print("Second text field: ${searchController.text}");
-  }
 
+    int size = searchController.text.length;
+    if (size > 3) {
+        setState(() {
+          print("text size is $size");
+          items2 = db.runQuery(Choices.FirstLetterStart, searchController.text);
+        });
+    }
+  }
 
   openFilterDialog(BuildContext context) {
     print("Filter button clicked");
-
   }
 
   @override
   Widget build(BuildContext context) {
 
-    DatabaseReader db = new DatabaseReader();
-
+    // search bar and dialog filter button
     List<Widget> searchBarChildren = [
       Padding(
         padding: const EdgeInsets.only(right: 8.0),
@@ -87,7 +101,7 @@ class _FloatingSearchWidgetState extends State<FloatingSearchWidget> {
               ),
               border: OutlineInputBorder( // NOT WORKING, WHY?
                   borderRadius: BorderRadius.all(Radius.circular(30.0)
-                  ), borderSide: BorderSide(color: Colors.blueAccent, width: 5.5))),
+                  ), borderSide: BorderSide(color: Colors.black, width: 5.5))),
         ),
       ),
     ];
@@ -101,7 +115,7 @@ class _FloatingSearchWidgetState extends State<FloatingSearchWidget> {
       ),
       Expanded(
         child: FutureBuilder(
-            future: db.runQuery(Choices.FirstLetterStart),
+            future: items2,
             builder: (BuildContext context, AsyncSnapshot snapshot) {
 
               if (snapshot.data == null) {
@@ -113,6 +127,7 @@ class _FloatingSearchWidgetState extends State<FloatingSearchWidget> {
               }
 
               return ListView.builder(
+                controller: _listViewController,
                 itemCount: snapshot.data.length,
                 itemBuilder: (context, index) {
                   return ListTile(
@@ -135,6 +150,5 @@ class _FloatingSearchWidgetState extends State<FloatingSearchWidget> {
       ),
     );
   }
-
 }
 

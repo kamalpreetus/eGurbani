@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     DatabaseReader db = new DatabaseReader();
-    Future<List<QueryResult>> l = db.runQuery(Choices.FirstLetterStart);
+    Future<List<QueryResult>> l = db.runQuery(Choices.FirstLetterStart, "qpddmp");
 
     return MaterialApp(
       title: 'eGurbani',

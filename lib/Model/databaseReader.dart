@@ -14,7 +14,7 @@ class DatabaseReader
   ///
   /// Returns the database. Make sure you close the Database after
   /// using it.
-  Future<List<QueryResult>> runQuery(Choices choices) async {
+  Future<List<QueryResult>> runQuery(Choices choices, String userInput) async {
 
     Database db = await getDatabase();
     List<QueryResult> resultList = new List<QueryResult>();
@@ -24,14 +24,14 @@ class DatabaseReader
       case Choices.Ang:
         return null;
       case Choices.FirstLetterStart:
-        resultFromDB = await db.rawQuery('SELECT * FROM lines WHERE first_letters LIKE "\%hhhh\%" ORDER BY order_id');
+        resultFromDB = await db.rawQuery('SELECT * FROM lines WHERE first_letters LIKE "\%$userInput\%" ORDER BY order_id');
         for (var a in resultFromDB) {
           resultList.add(new QueryResult(
               a["shabad_id"],
               a["source_page"],
               a["first_letters"],
               a["gurmukhi"]));
-          print("val " + a["first_letters"]);
+          print("val " + a["gurmukhi"]);
         }
         return resultList;
       case Choices.FirstLetterAnywhere:
