@@ -11,8 +11,4 @@ class QueryResult {
     this.sourcePage,
     this.first_letters,
     this.gurmukhi);
-
-   static List<QueryResult> mapToQR(var c){
-
-  }
 }

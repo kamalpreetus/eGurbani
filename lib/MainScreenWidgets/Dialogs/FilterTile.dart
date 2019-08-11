@@ -34,7 +34,7 @@ class FilterTileState extends State<FilterTile> {
           ),
         ),
         FutureBuilder<String> (
-          future: SharedPrefHelper.getMode(),
+          future: SharedPrefHelper.getValue(this.widget.title),
           builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
 
             if (snapshot.data == null) {
@@ -52,10 +52,9 @@ class FilterTileState extends State<FilterTile> {
                       isExpanded: true,
                       hint: Text(snapshot.data), // default value - Get from shared prefs
                       onChanged: (String changedValue) {
-                        selectedValue=changedValue;
                         setState(() {
-                          selectedValue;
-                          SharedPrefHelper.setMode(changedValue);
+                          selectedValue=changedValue;
+                          SharedPrefHelper.setValue(this.widget.title, changedValue);
                           print(selectedValue);
                         });
                       },
