@@ -33,7 +33,7 @@ class ResultListViewWidget extends StatelessWidget {
               return ListTile(
                 leading: CircleAvatar(),
                 trailing: Text(snapshot.data[index].sourcePage.toString()),
-                title: Text(snapshot.data[index].gurmukhi, style: TextStyle(fontFamily: 'WebAkharThick')),
+                title: Text(snapshot.data[index].gurmukhi, style: TextStyle(fontFamily: 'WebAkharThick', fontSize: 20.0)),
               );
             },
           );

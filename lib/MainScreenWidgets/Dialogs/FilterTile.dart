@@ -50,7 +50,7 @@ class FilterTileState extends State<FilterTile> {
                   alignedDropdown: true,
                   child: new DropdownButton<String>(
                       isExpanded: true,
-                      hint: Text(snapshot.data), // default value - Get from shared prefs
+                      hint: Text(snapshot.data, style: TextStyle(color: Colors.black),), // default value - Get from shared prefs
                       onChanged: (String changedValue) {
                         setState(() {
                           selectedValue=changedValue;

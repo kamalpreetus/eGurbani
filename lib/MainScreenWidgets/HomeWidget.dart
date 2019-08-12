@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter2/MainScreenWidgets/NavigatorPage.dart';
 
 import 'NitnemWidget.dart';
 import 'SearchScreen.dart';
@@ -16,7 +17,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
   final List<Widget> _children = [
     SearchScreen(),
-    NitnemWidget(Colors.deepOrange),
+    NavigatorPage(child: Text("Navv")),
     NitnemWidget(Colors.green),
     NitnemWidget(Colors.blue)
   ];
@@ -25,9 +26,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       /// using IndexedStack allows us to persist UI state, it keeps pages alive
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _children,
+      body: SafeArea(
+        child: IndexedStack(
+          index: _currentIndex,
+          children: _children,
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
