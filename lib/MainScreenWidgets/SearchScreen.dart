@@ -108,41 +108,10 @@ class _SearchScreenState extends State<SearchScreen> {
     ];
 
     return Container(
+      padding: EdgeInsets.all(10),
       //color: Colors.amber,
-      child: FutureBuilder(
-          future: queryResultList,
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-
-            if (snapshot.data == null) {
-              return Container(
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            }
-
-            return CustomScrollView(
-              slivers: <Widget>[
-
-                SliverAppBar(
-                  title: Text("Title"),
-                ),
-
-                SliverList(
-                  delegate: SliverChildBuilderDelegate((context, index) {
-                    return ListTile(
-                      leading: CircleAvatar(),
-                      trailing: Text(snapshot.data[index].sourcePage.toString()),
-                      title: Text(snapshot.data[index].gurmukhi.toString().replaceAll(new RegExp(r'[\s,;]+'), ""), style: TextStyle(fontFamily: 'WebAkharThick', fontSize: 20.0)),
-                    );
-                  },
-
-                  childCount: snapshot.data.length
-                  ),
-                )
-              ],
-            );
-          }
+      child: Column(
+        children: mainScreenChildren,
       ),
     );
   }
