@@ -36,15 +36,24 @@ class DatabaseReader
         return null;
         break;
       case Choices.ExactWordGurmukhi:
-        return null;
+        await getRehrasSahib(resultFromDB, db, resultList);
+
+        for (var m in resultList) {
+
+          }
+
         break;
       case Choices.ExactWordEnglish:
         return null;
         break;
       case Choices.Bani:
-        resultFromDB = await getRehrasSahib(resultFromDB, db, resultList);
+        //resultFromDB = await getRehrasSahib(resultFromDB, db, resultList);
 
-        //addToresultList(resultFromDB, resultList);
+        resultFromDB = await db.rawQuery("SELECT * FROM lines "
+            "JOIN bani_lines ON bani_lines.line_id = lines.id "
+            "WHERE bani_lines.bani_id = 7 "
+            "ORDER BY bani_lines.line_group, lines.order_id");
+        addToresultList(resultFromDB, resultList);
         break;
     }
 
@@ -56,7 +65,7 @@ class DatabaseReader
     String chaupaiQuery = "SELECT * FROM lines "
         "JOIN bani_lines ON bani_lines.line_id = lines.id "
         "WHERE bani_lines.bani_id = 4 "
-        "ORDER BY order_id";
+        "ORDER BY order_id, lines.order_id";
     String kripaKari = "SELECT * FROM lines where lines.order_id >= 126506 AND lines.order_id <= 126523";
     List<String> swayivaDohra = ["VNG", "78Q"];
     List<String> anadSahibAndSmapti = ["A3M", "BWP", "0Q9", "EUW", "A9Y"];

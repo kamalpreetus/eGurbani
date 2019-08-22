@@ -20,6 +20,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+      ),
       // the home is typically a Scaffold
       home: HomePageWidget(title: 'eGurbani Home Page'),
     );
