@@ -1,31 +1,43 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter2/MainScreenWidgets/BaniWidget.dart';
+import 'package:flutter2/Model/Bani/Banis.dart';
+import 'package:flutter2/Model/Bani/IBani.dart';
 import 'package:flutter2/Model/Choices.dart';
 import 'package:flutter2/Model/QueryResult.dart';
 import 'package:flutter2/Model/databaseReader.dart';
 
-import 'EnterExitTransition.dart';
-import 'NitnemWidget.dart';
-
-class NavigatorPage extends StatefulWidget {
-  NavigatorPage({ Key key, this.child }) : super(key: key);
+class NitnemNavigatorPage extends StatefulWidget {
+  NitnemNavigatorPage({ Key key, this.child }) : super(key: key);
 
   final Widget child;
   List<String> banis = ["Japji Sahib", "Rehras Sahib"];
 
   @override
-  _NavigatorPageState createState() => _NavigatorPageState();
+  _NitnemNavigatorPageState createState() => _NitnemNavigatorPageState();
 }
 
-class _NavigatorPageState extends State<NavigatorPage> {
+class _NitnemNavigatorPageState extends State<NitnemNavigatorPage> {
   TextEditingController _textController;
   Future<List<QueryResult>> queryResultList;
-  List<String> banis = ["Japji Sahib", "Rehras Sahib"];
+
+  List<IBani> banis;
 
   @override
   void initState() {
     super.initState();
+
+    banis = [
+      JapjiSahib(),
+      JaapSahib(),
+      TavPrasadSavaiye(),
+      ChaupaiSahib(),
+      AnandSahib(),
+      RehrasSahib(),
+      SohilaSahib(),
+      SukhmaniSahib()
+    ];
+
     _textController = TextEditingController(
       text: 'sample text: ${widget.child}',
     );
@@ -36,7 +48,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
   Widget build(BuildContext context) {
     return Navigator(
       onGenerateRoute: (RouteSettings settings) {
-        return new MaterialPageRoute(
+        return new CupertinoPageRoute(
           settings: settings,
           builder: (BuildContext context) {
             return Scaffold(
@@ -50,23 +62,40 @@ class _NavigatorPageState extends State<NavigatorPage> {
                     child: ListView.builder(
                         itemCount: banis.length,
                         itemBuilder: (context, index) {
-                          return ListTile(
-                            onTap: () {
-                              Navigator.push(context, CupertinoPageRoute(builder: (context) => BaniWidget(index)));
-                            },
-                            title: Text(banis[index], style: TextStyle(fontSize: 20.0)),
-                            trailing: Icon(Icons.keyboard_arrow_right),
-                          );
+                          return new BaniTile(banis: banis, index: index);
                         }
                      ),
                   )
-                  ,
                 ],
               ),
             );
           },
         );
       },
+    );
+  }
+}
+
+/// This is what gets loaded when a user clicks on a Bani
+class BaniTile extends StatelessWidget {
+  int index;
+  BaniTile({
+    Key key,
+    @required this.banis,
+    @required this.index,
+  }) : super(key: key);
+
+  final List<IBani> banis;
+
+  @override
+  Widget build(BuildContext context) {
+
+    return ListTile(
+      onTap: () {
+        Navigator.push(context, CupertinoPageRoute(builder: (context) => BaniWidget(banis[index])));
+      },
+      title: Text(banis[index].name(), style: TextStyle(fontSize: 20.0)),
+      trailing: Icon(Icons.keyboard_arrow_right),
     );
   }
 }

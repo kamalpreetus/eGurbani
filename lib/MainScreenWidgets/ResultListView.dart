@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter2/MainScreenWidgets/BaniWidget.dart';
+import 'package:flutter2/Model/Bani/Banis.dart';
 import 'package:flutter2/Model/QueryResult.dart';
 
 /// Result list view on the search screen
@@ -26,14 +29,19 @@ class ResultListViewWidget extends StatelessWidget {
             );
           }
 
+          print("rebuilding KKKKK ");
           return ListView.builder(
             controller: _listViewController,
             itemCount: snapshot.data.length,
             itemBuilder: (context, index) {
               return ListTile(
+                onTap: () {
+                  Navigator.push(context, CupertinoPageRoute(builder: (context) => BaniWidget(JapjiSahib())));
+                },
                 leading: CircleAvatar(),
                 trailing: Text(snapshot.data[index].sourcePage.toString()),
-                title: Text(snapshot.data[index].gurmukhi.toString().replaceAll(new RegExp(r'[\s,;]+'), ""), style: TextStyle(fontFamily: 'WebAkharThick', fontSize: 20.0)),
+                title: Text(snapshot.data[index].gurmukhi,
+                    style: TextStyle(fontFamily: 'WebAkharThick', fontSize: 20.0, wordSpacing: -7)),
               );
             },
           );

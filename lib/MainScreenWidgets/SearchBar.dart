@@ -27,7 +27,7 @@ class SearchBar extends StatelessWidget {
           ),
           border: OutlineInputBorder( // NOT WORKING, WHY?
               borderRadius: BorderRadius.all(Radius.circular(30.0)
-              ), borderSide: BorderSide(color: Colors.black, width: 5.5))),
+              ), borderSide: BorderSide( width: 5.5))),
     );
   }
 }

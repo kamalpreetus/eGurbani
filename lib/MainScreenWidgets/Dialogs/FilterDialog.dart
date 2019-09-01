@@ -4,22 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter2/MainScreenWidgets/Dialogs/FilterTile.dart';
 
 /// filter dialog when user clicks on the filter button
-class CustomSimpleDialog extends StatefulWidget {
-  CustomSimpleDialog({
-    this.cities,
-    this.selectedCities,
-    this.onSelectedCitiesListChanged,
+class FilterDialog extends StatefulWidget {
+  FilterDialog({
+    this.onModeOptionsChanged,
   });
 
-  final List<String> cities;
-  final List<String> selectedCities;
-  final ValueChanged<List<String>> onSelectedCitiesListChanged;
+  final ValueChanged<List<String>> onModeOptionsChanged;
 
   @override
-  CustomSimpleDialogState createState() => CustomSimpleDialogState();
+  FilterDialogState createState() => FilterDialogState();
 }
 
-class CustomSimpleDialogState extends State<CustomSimpleDialog> {
+class FilterDialogState extends State<FilterDialog> {
   String newModeOption;
   List<String> modeOptions = [
     "First Letter Start",

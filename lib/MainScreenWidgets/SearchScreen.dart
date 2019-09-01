@@ -5,7 +5,7 @@ import 'package:flutter2/Model/Choices.dart';
 import 'package:flutter2/Model/QueryResult.dart';
 import 'package:flutter2/Model/databaseReader.dart';
 
-import 'Dialogs/CustomSimpleDialog.dart';
+import 'Dialogs/FilterDialog.dart';
 import 'ResultListView.dart';
 
 /// search widget + filter button on the search screen
@@ -18,9 +18,7 @@ class _SearchScreenState extends State<SearchScreen> {
   DatabaseReader db = new DatabaseReader();
   final searchController = TextEditingController();
   ScrollController _listViewController = ScrollController();
-  bool checkboxValueCity = false;
-  List<String> allCities = ['Alpha', 'Beta', 'Gamma'];
-  List<String> selectedCities = [];
+  List<String> selectedOption = [];
   Future<List<QueryResult>> queryResultList;
 
   @override
@@ -65,12 +63,10 @@ class _SearchScreenState extends State<SearchScreen> {
           onTap: () => showDialog(
             context: context,
             builder: (context) {
-              return CustomSimpleDialog(
-                  cities: allCities,
-                  selectedCities: selectedCities,
-                  onSelectedCitiesListChanged: (cities) {
-                    selectedCities = cities;
-                    print(selectedCities);
+              return FilterDialog(
+                  onModeOptionsChanged: (modeOption) {
+                    selectedOption = modeOption;
+                    print(selectedOption);
                   });
             }
           ),
@@ -78,10 +74,10 @@ class _SearchScreenState extends State<SearchScreen> {
             child: Icon(
               Icons.filter_list,
               color: Colors.black,
-              size: 60.0,
+              size: 58.0
             ),
             decoration: new BoxDecoration(
-                border: new Border.all(color: Colors.black, width: 2.0),
+                border: new Border.all(width: 2.0),
                 borderRadius: BorderRadius.all(Radius.circular(25.0))
             ) ,
           ),
@@ -108,12 +104,13 @@ class _SearchScreenState extends State<SearchScreen> {
     ];
 
     return Container(
-      padding: EdgeInsets.all(10),
-      //color: Colors.amber,
+      padding: EdgeInsets.only(top: 25),
       child: Column(
-        children: mainScreenChildren,
-      ),
+          mainAxisSize: MainAxisSize.min,
+          children: mainScreenChildren,
+        )
     );
+
   }
 }
 

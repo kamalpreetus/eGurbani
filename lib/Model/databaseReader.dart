@@ -51,7 +51,7 @@ class DatabaseReader
 
         resultFromDB = await db.rawQuery("SELECT * FROM lines "
             "JOIN bani_lines ON bani_lines.line_id = lines.id "
-            "WHERE bani_lines.bani_id = 7 "
+            "WHERE bani_lines.bani_id = $userInput "
             "ORDER BY bani_lines.line_group, lines.order_id");
         addToresultList(resultFromDB, resultList);
         break;

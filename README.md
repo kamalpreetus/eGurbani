@@ -1,11 +1,9 @@
-# flutter2
+# eGurbani
 
-A new Flutter application.
+Gurbani search, nitnem/gutka sahib, sehaj path app for ios and Android (currently in development).
 
 ## Getting Started
-
-This project is a starting point for a Flutter application.
-
+- documentation not written yet.
 A few resources to get you started if this is your first Flutter project:
 
 - [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)

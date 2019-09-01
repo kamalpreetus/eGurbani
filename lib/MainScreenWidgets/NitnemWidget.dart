@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter2/MainScreenWidgets/BaniWidget.dart';
+import 'package:flutter2/Model/Bani/Banis.dart';
 import 'package:flutter2/Model/Choices.dart';
 import 'package:flutter2/Model/QueryResult.dart';
 import 'package:flutter2/Model/databaseReader.dart';
@@ -28,9 +29,9 @@ class NitnemWidget extends StatelessWidget {
         itemCount: banis.length,
         itemBuilder: (context, index) {
           return ListTile(
-            onTap: () => {
+            onTap: () {
               Navigator.push(context,
-              MaterialPageRoute(builder: (context) => BaniWidget(index)))
+              MaterialPageRoute(builder: (context) => BaniWidget(JapjiSahib())));
             },
             title: Text(banis[index], style: TextStyle(fontSize: 20.0),),
             trailing: Icon(Icons.keyboard_arrow_right),

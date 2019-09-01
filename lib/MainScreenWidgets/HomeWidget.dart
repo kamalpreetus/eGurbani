@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter2/MainScreenWidgets/NavigatorPage.dart';
+import 'package:flutter2/NitnemScreenWidgets/NitnemNavigatorPage.dart';
 
 import 'NitnemWidget.dart';
 import 'SearchScreen.dart';
@@ -17,7 +17,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
   final List<Widget> _children = [
     SearchScreen(),
-    NavigatorPage(child: Text("Navv")),
+    NitnemNavigatorPage(child: Text("Navv")),
     NitnemWidget(Colors.green),
     NitnemWidget(Colors.blue)
   ];
@@ -47,10 +47,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               title: Text('Sehaj Path'),
             ),
             BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.settings,
-                  color: Colors.black,
-                ),
+                icon: Icon(Icons.settings, color: Colors.black),
                 title: Text("Settings"))
           ],
           selectedItemColor: Colors.amber[800],
