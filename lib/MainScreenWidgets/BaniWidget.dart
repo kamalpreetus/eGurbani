@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter2/Model/Bani/IBani.dart';
 import 'package:flutter2/Model/Choices.dart';
 import 'package:flutter2/Model/QueryResult.dart';
 import 'package:flutter2/Model/databaseReader.dart';
 
+/// Bani page. this is where banis show up when a list item (bani) is clicked
 class BaniWidget extends StatefulWidget {
 
   IBani bani;
@@ -17,18 +19,47 @@ class BaniWidget extends StatefulWidget {
 
 class BaniWidgetState extends State<BaniWidget> {
   DatabaseReader db = new DatabaseReader();
+  bool _isAppbar = true;
+  ScrollController _scrollController = new ScrollController();
 
   @override
   void initState() {
     super.initState();
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.userScrollDirection ==
+          ScrollDirection.reverse) {
+        appBarStatus(false);
+      }
+      if (_scrollController.position.userScrollDirection ==
+          ScrollDirection.forward) {
+        appBarStatus(true);
+      }
+    });
+
     this.widget.queryResultList = db.runQuery(Choices.Bani, this.widget.bani.id().toString());
+  }
+
+  /// Helper function for hiding appbar on scroll
+  /// This is a hack, alternative solution is to use
+  /// a CustomScrollView but making FutureBuilder work with
+  /// it is not easy.
+  void appBarStatus(bool status) {
+    setState(() {
+      _isAppbar = status;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Bani Title"),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(kToolbarHeight ),
+          child: AnimatedContainer(
+            height: _isAppbar ? kToolbarHeight  + 25.0 : 0.0,
+            duration: Duration(milliseconds: 200),
+            child: CustomAppBar(),
+          ),
         ),
         body: FutureBuilder(
             future: this.widget.queryResultList,
@@ -49,6 +80,7 @@ class BaniWidgetState extends State<BaniWidget> {
               }
 
               return ListView.builder(
+                controller: _scrollController,
                 itemCount: 1,
                 itemBuilder: (context, index) {
                   return ListTile(
@@ -69,6 +101,20 @@ class BaniWidgetState extends State<BaniWidget> {
               );
             }
         )
+    );
+  }
+}
+
+class CustomAppBar extends StatefulWidget {
+@override
+AppBarView createState() => new AppBarView();
+}
+
+class AppBarView extends State<CustomAppBar> {
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: Text("AppBar"),
     );
   }
 }
