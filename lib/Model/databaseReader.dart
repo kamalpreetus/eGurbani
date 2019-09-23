@@ -9,7 +9,7 @@ import 'QueryResult.dart';
 
 class DatabaseReader
 {
-  final String DB_NAME = "shabados.sqlite";
+  final String DB_NAME = "shabados411.sqlite";
 
   ///
   /// Returns the database. Make sure you close the Database after
@@ -20,85 +20,35 @@ class DatabaseReader
     List<QueryResult> resultList = new List<QueryResult>();
     List<Map> resultFromDB = new List<Map>();
 
-
-
     switch(choices) {
       case Choices.Ang:
         return null;
       case Choices.FirstLetterStart:
-        resultFromDB = await db.rawQuery(''
-            'SELECT * FROM lines '
-            'WHERE first_letters LIKE "\%$userInput\%" '
-            'ORDER BY order_id');
-        addToresultList(resultFromDB, resultList);
+        resultFromDB = await db.rawQuery('SELECT * FROM lines WHERE first_letters LIKE "\%$userInput\%" ORDER BY order_id');
+        for (var a in resultFromDB) {
+          resultList.add(new QueryResult(
+              a["shabad_id"],
+              a["source_page"],
+              a["first_letters"],
+              a["gurmukhi"]));
+          print("val " + a["gurmukhi"]);
+        }
         return resultList;
       case Choices.FirstLetterAnywhere:
         return null;
         break;
       case Choices.ExactWordGurmukhi:
-        await getRehrasSahib(resultFromDB, db, resultList);
-
-        for (var m in resultList) {
-
-          }
-
+        return null;
         break;
       case Choices.ExactWordEnglish:
         return null;
         break;
       case Choices.Bani:
-        //resultFromDB = await getRehrasSahib(resultFromDB, db, resultList);
-
-        resultFromDB = await db.rawQuery("SELECT * FROM lines "
-            "JOIN bani_lines ON bani_lines.line_id = lines.id "
-            "WHERE bani_lines.bani_id = $userInput "
-            "ORDER BY bani_lines.line_group, lines.order_id");
-        addToresultList(resultFromDB, resultList);
+        return null;
         break;
     }
 
     return resultList;
-  }
-
-  Future<List<Map>> getRehrasSahib(List<Map> resultFromDB, Database db, List<QueryResult> resultList) async {
-    List<String> untilChaupai = ["A5W", "KQK", "4CW", "9UG", "SPX", "DYZ", "38V", "823", "8GT", "JHX", "919"];
-    String chaupaiQuery = "SELECT * FROM lines "
-        "JOIN bani_lines ON bani_lines.line_id = lines.id "
-        "WHERE bani_lines.bani_id = 4 "
-        "ORDER BY order_id, lines.order_id";
-    String kripaKari = "SELECT * FROM lines where lines.order_id >= 126506 AND lines.order_id <= 126523";
-    List<String> swayivaDohra = ["VNG", "78Q"];
-    List<String> anadSahibAndSmapti = ["A3M", "BWP", "0Q9", "EUW", "A9Y"];
-    
-    
-    for (String s in untilChaupai) {
-      resultFromDB = await db.rawQuery("SELECT * FROM lines where shabad_id = 'A5W'");
-      addToresultList(resultFromDB, resultList);
-    }
-    
-    resultFromDB = await db.rawQuery(chaupaiQuery);
-    addToresultList(resultFromDB, resultList);
-    
-    resultFromDB = await db.rawQuery(kripaKari);
-    addToresultList(resultFromDB, resultList);
-    
-    for (String s in anadSahibAndSmapti) {
-      resultFromDB = await db.rawQuery("SELECT * FROM lines where shabad_id = 'A5W'");
-      addToresultList(resultFromDB, resultList);
-    }
-
-    return resultFromDB;
-  }
-
-  void addToresultList(List<Map> resultFromDB, List<QueryResult> resultList) {
-    for (var a in resultFromDB) {
-      resultList.add(new QueryResult(
-          a["shabad_id"],
-          a["source_page"],
-          a["first_letters"],
-          a["gurmukhi"]));
-      print("val " + a["gurmukhi"]);
-    }
   }
 
   Future<Database> getDatabase() async {

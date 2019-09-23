@@ -13,6 +13,7 @@ class Tabbed extends StatefulWidget {
 
 class _TabbedState extends State<Tabbed> {
   int _currentTab = 0;
+  bool isBottomNavVisible = true;
 
   final List<CustomTab> tabs = <CustomTab>[
     CustomTab(
@@ -72,58 +73,62 @@ class _TabbedState extends State<Tabbed> {
   Widget _buildTabs() {
     return SafeArea(
       top: false,
-      child: Container(
-        decoration: const BoxDecoration(
-          color: Colors.transparent,
-          border: Border(
-            top: BorderSide(color: Color.fromRGBO(58, 66, 86, 0.3)),
+      child: AnimatedContainer(
+        duration: Duration(milliseconds: 400),
+        height: isBottomNavVisible ? 55.0 : 0.0,
+        child: Container(
+          decoration: const BoxDecoration(
+            //color: Colors.transparent,
+            border: Border(
+              top: BorderSide(color: Color.fromRGBO(58, 66, 86, 0.3)),
+            ),
           ),
-        ),
-        height: 55.0,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            IconButton(
-              iconSize: 30.0,
-              color: _currentTab == 0
-                  ? Color.fromRGBO(58, 66, 86, 1.0)
-                  : Color.fromRGBO(58, 66, 86, 0.3),
-              icon: const Icon(Icons.home),
-              onPressed: () {
-                _setTab(0);
-              },
-            ),
-            IconButton(
-              iconSize: 30.0,
-              color: _currentTab == 1
-                  ? Color.fromRGBO(58, 66, 86, 1.0)
-                  : Color.fromRGBO(58, 66, 86, 0.3),
-              icon: const Icon(Icons.search),
-              onPressed: () {
-                _setTab(1);
-              },
-            ),
-            IconButton(
-              iconSize: 30.0,
-              color: _currentTab == 2
-                  ? Color.fromRGBO(58, 66, 86, 1.0)
-                  : Color.fromRGBO(58, 66, 86, 0.3),
-              icon: const Icon(Icons.notifications),
-              onPressed: () {
-                _setTab(2);
-              },
-            ),
-            IconButton(
-              iconSize: 30.0,
-              color: _currentTab == 3
-                  ? Color.fromRGBO(58, 66, 86, 1.0)
-                  : Color.fromRGBO(58, 66, 86, 0.3),
-              icon: const Icon(Icons.settings),
-              onPressed: () {
-                _setTab(3);
-              },
-            )
-          ],
+          height: 55.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              IconButton(
+                iconSize: 30.0,
+                color: _currentTab == 0
+                    ? Color.fromRGBO(58, 66, 86, 1.0)
+                    : Color.fromRGBO(58, 66, 86, 0.3),
+                icon: const Icon(Icons.home),
+                onPressed: () {
+                  _setTab(0);
+                },
+              ),
+              IconButton(
+                iconSize: 30.0,
+                color: _currentTab == 1
+                    ? Color.fromRGBO(58, 66, 86, 1.0)
+                    : Color.fromRGBO(58, 66, 86, 0.3),
+                icon: const Icon(Icons.search),
+                onPressed: () {
+                  _setTab(1);
+                },
+              ),
+              IconButton(
+                iconSize: 30.0,
+                color: _currentTab == 2
+                    ? Color.fromRGBO(58, 66, 86, 1.0)
+                    : Color.fromRGBO(58, 66, 86, 0.3),
+                icon: const Icon(Icons.notifications),
+                onPressed: () {
+                  _setTab(2);
+                },
+              ),
+              IconButton(
+                iconSize: 30.0,
+                color: _currentTab == 3
+                    ? Color.fromRGBO(58, 66, 86, 1.0)
+                    : Color.fromRGBO(58, 66, 86, 0.3),
+                icon: const Icon(Icons.settings),
+                onPressed: () {
+                  _setTab(3);
+                },
+              )
+            ],
+          ),
         ),
       ),
     );

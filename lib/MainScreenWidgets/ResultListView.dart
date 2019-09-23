@@ -41,7 +41,7 @@ class ResultListViewWidget extends StatelessWidget {
                 leading: CircleAvatar(),
                 trailing: Text(snapshot.data[index].sourcePage.toString()),
                 title: Text(snapshot.data[index].gurmukhi,
-                    style: TextStyle(fontFamily: 'WebAkharThick', fontSize: 20.0, wordSpacing: -7)),
+                    style: TextStyle(fontFamily: 'OpenGurbaniAkharBlack', fontSize: 20.0, wordSpacing: -7)),
               );
             },
           );

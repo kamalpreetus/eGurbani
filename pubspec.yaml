@@ -38,6 +38,6 @@ flutter:
   assets:
     - assets/
   fonts:
-    - family: WebAkharThick
+    - family: OpenGurbaniAkharBlack
       fonts:
-        - asset:  assets/WebAkharThick.ttf
+        - asset:  assets/OpenGurbaniAkharBlack.otf
