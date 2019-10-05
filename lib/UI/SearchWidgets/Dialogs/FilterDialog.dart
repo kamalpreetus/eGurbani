@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:flutter2/MainScreenWidgets/Dialogs/FilterTile.dart';
+import 'package:flutter2/UI/SearchWidgets/Dialogs/FilterTile.dart';
 
 /// filter dialog when user clicks on the filter button
 class FilterDialog extends StatefulWidget {

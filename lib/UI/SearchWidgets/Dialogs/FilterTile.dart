@@ -1,8 +1,5 @@
-
-// another class
 import 'package:flutter/material.dart';
-
-import '../../SharedPrefHelper.dart';
+import 'package:flutter2/Model/Utils/SharedPrefHelper.dart';
 
 class FilterTile extends StatefulWidget {
 

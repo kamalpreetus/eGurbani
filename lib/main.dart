@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter2/MainScreenWidgets/Tabbed.dart';
-import 'MainScreenWidgets/HomeWidget.dart';
-
-import 'Model/Choices.dart';
-import 'Model/QueryResult.dart';
+import 'package:flutter2/UI/Tabbed.dart';
 
 void main() => runApp(MyApp());
 

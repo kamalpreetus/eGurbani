@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter2/MainScreenWidgets/SearchBar.dart';
+import 'package:flutter2/UI/SearchWidgets/Dialogs/FilterDialog.dart';
+import 'package:flutter2/UI/SearchWidgets/SearchBar.dart';
 import 'package:flutter2/Model/Choices.dart';
 import 'package:flutter2/Model/QueryResult.dart';
 import 'package:flutter2/Model/databaseReader.dart';
-
-import 'Dialogs/FilterDialog.dart';
-import 'ResultListView.dart';
+import 'package:flutter2/UI/SearchWidgets/ResultListView.dart';
 
 /// search widget + filter button on the search screen
 class SearchScreen extends StatefulWidget {

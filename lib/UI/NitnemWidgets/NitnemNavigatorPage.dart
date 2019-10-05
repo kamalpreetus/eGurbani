@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter2/MainScreenWidgets/BaniWidget.dart';
 import 'package:flutter2/Model/Bani/Banis.dart';
 import 'package:flutter2/Model/Bani/IBani.dart';
 import 'package:flutter2/Model/Choices.dart';
 import 'package:flutter2/Model/QueryResult.dart';
 import 'package:flutter2/Model/databaseReader.dart';
+import 'package:flutter2/UI/NitnemWidgets/BaniWidget.dart';
 
 class NitnemNavigatorPage extends StatefulWidget {
   NitnemNavigatorPage({ Key key, this.child }) : super(key: key);

@@ -1,10 +1,9 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter2/MainScreenWidgets/CustomTab.dart';
-import 'package:flutter2/MainScreenWidgets/SearchScreen.dart';
-import 'package:flutter2/NitnemScreenWidgets/NitnemNavigatorPage.dart';
+import 'package:flutter2/UI/WidgetUtils/CustomTab.dart';
+import 'package:flutter2/UI/SearchWidgets/SearchScreen.dart';
+import 'package:flutter2/UI/NitnemWidgets/NitnemNavigatorPage.dart';
 
 class Tabbed extends StatefulWidget {
   @override
