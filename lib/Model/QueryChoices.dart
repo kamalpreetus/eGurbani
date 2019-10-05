@@ -1,4 +1,4 @@
-enum Choices {
+enum QueryChoices {
   FirstLetterStart,
   FirstLetterAnywhere,
   ExactWordGurmukhi,

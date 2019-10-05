@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter2/UI/NitnemWidgets/BaniWidget.dart';
-import 'package:flutter2/Model/Bani/Banis.dart';
 import 'package:flutter2/Model/QueryResult.dart';
+import 'package:flutter2/UI/SearchWidgets/ShabadPageView.dart';
 
 /// Result list view on the search screen
 class ResultListViewWidget extends StatelessWidget {
@@ -36,7 +35,7 @@ class ResultListViewWidget extends StatelessWidget {
             itemBuilder: (context, index) {
               return ListTile(
                 onTap: () {
-                  Navigator.push(context, CupertinoPageRoute(builder: (context) => BaniWidget(JapjiSahib())));
+                  Navigator.push(context, CupertinoPageRoute(builder: (context) => ShabadPageView(/* shabadId */ snapshot.data[index].shabadID)));
                 },
                 leading: CircleAvatar(),
                 trailing: Text(snapshot.data[index].sourcePage.toString()),

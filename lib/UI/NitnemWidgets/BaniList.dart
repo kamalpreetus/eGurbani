@@ -3,22 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter2/Model/Bani/Banis.dart';
 import 'package:flutter2/Model/Bani/IBani.dart';
-import 'package:flutter2/Model/Choices.dart';
+import 'package:flutter2/Model/QueryChoices.dart';
 import 'package:flutter2/Model/QueryResult.dart';
 import 'package:flutter2/Model/databaseReader.dart';
 import 'package:flutter2/UI/NitnemWidgets/BaniWidget.dart';
 
-class NitnemNavigatorPage extends StatefulWidget {
-  NitnemNavigatorPage({ Key key, this.child }) : super(key: key);
+/// List of banis widget
+class BaniList extends StatefulWidget {
+  BaniList({ Key key, this.child }) : super(key: key);
 
   final Widget child;
   List<String> banis = ["Japji Sahib", "Rehras Sahib"];
 
   @override
-  _NitnemNavigatorPageState createState() => _NitnemNavigatorPageState();
+  _BaniListState createState() => _BaniListState();
 }
 
-class _NitnemNavigatorPageState extends State<NitnemNavigatorPage> {
+class _BaniListState extends State<BaniList> {
   TextEditingController _textController;
   Future<List<QueryResult>> queryResultList;
 
@@ -42,37 +43,28 @@ class _NitnemNavigatorPageState extends State<NitnemNavigatorPage> {
     _textController = TextEditingController(
       text: 'sample text: ${widget.child}',
     );
-    queryResultList = DatabaseReader().runQuery(Choices.Bani, "7");
+    queryResultList = DatabaseReader().runQuery(QueryChoices.Bani, "7");
   }
 
   @override
   Widget build(BuildContext context) {
-    return Navigator(
-      onGenerateRoute: (RouteSettings settings) {
-        return new CupertinoPageRoute(
-          settings: settings,
-          builder: (BuildContext context) {
-            return Scaffold(
-              appBar: AppBar(
-                title: Text("Nitnem")
-              ),
-              body: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Expanded(
-                    child: ListView.builder(
-                        itemCount: banis.length,
-                        itemBuilder: (context, index) {
-                          return new BaniTile(banis: banis, index: index);
-                        }
-                     ),
-                  )
-                ],
-              ),
-            );
-          },
-        );
-      },
+    return new Scaffold(
+      appBar: AppBar(
+        title: Text("Nitnem")
+      ),
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Expanded(
+            child: ListView.builder(
+                itemCount: banis.length,
+                itemBuilder: (context, index) {
+                  return new BaniTile(banis: banis, index: index);
+                }
+             ),
+          )
+        ],
+      ),
     );
   }
 }

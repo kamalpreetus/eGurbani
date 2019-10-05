@@ -3,7 +3,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:flutter/services.dart';
 
-import 'Choices.dart';
+import 'QueryChoices.dart';
 import 'QueryResult.dart';
 
 
@@ -14,7 +14,7 @@ class DatabaseReader
   ///
   /// Returns the database. Make sure you close the Database after
   /// using it.
-  Future<List<QueryResult>> runQuery(Choices choices, String userInput) async {
+  Future<List<QueryResult>> runQuery(QueryChoices choices, String userInput) async {
 
     Database db = await getDatabase();
     List<QueryResult> resultList = new List<QueryResult>();
@@ -23,19 +23,19 @@ class DatabaseReader
 
 
     switch(choices) {
-      case Choices.Ang:
+      case QueryChoices.Ang:
         return null;
-      case Choices.FirstLetterStart:
+      case QueryChoices.FirstLetterStart:
         resultFromDB = await db.rawQuery(''
             'SELECT * FROM lines '
             'WHERE first_letters LIKE "\%$userInput\%" '
             'ORDER BY order_id');
         addToresultList(resultFromDB, resultList);
         return resultList;
-      case Choices.FirstLetterAnywhere:
+      case QueryChoices.FirstLetterAnywhere:
         return null;
         break;
-      case Choices.ExactWordGurmukhi:
+      case QueryChoices.ExactWordGurmukhi:
         await getRehrasSahib(resultFromDB, db, resultList);
 
         for (var m in resultList) {
@@ -43,10 +43,10 @@ class DatabaseReader
         }
 
         break;
-      case Choices.ExactWordEnglish:
+      case QueryChoices.ExactWordEnglish:
         return null;
         break;
-      case Choices.Bani:
+      case QueryChoices.Bani:
       //resultFromDB = await getRehrasSahib(resultFromDB, db, resultList);
 
         resultFromDB = await db.rawQuery("SELECT * FROM lines "

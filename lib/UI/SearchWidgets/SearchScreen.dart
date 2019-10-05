@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter2/UI/SearchWidgets/Dialogs/FilterDialog.dart';
 import 'package:flutter2/UI/SearchWidgets/SearchBar.dart';
-import 'package:flutter2/Model/Choices.dart';
+import 'package:flutter2/Model/QueryChoices.dart';
 import 'package:flutter2/Model/QueryResult.dart';
 import 'package:flutter2/Model/databaseReader.dart';
 import 'package:flutter2/UI/SearchWidgets/ResultListView.dart';
@@ -23,7 +23,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     super.initState();
-    queryResultList = db.runQuery(Choices.FirstLetterStart, "qddqdK");
+    queryResultList = db.runQuery(QueryChoices.FirstLetterStart, "qddqdK");
     _listViewController.addListener(_scrollListener);
     searchController.addListener(filterListview);
   }
@@ -41,7 +41,7 @@ class _SearchScreenState extends State<SearchScreen> {
     if (size > 2) {
         setState(() {
           print("text size is $size");
-          queryResultList = db.runQuery(Choices.FirstLetterStart, searchController.text);
+          queryResultList = db.runQuery(QueryChoices.FirstLetterStart, searchController.text);
         });
     }
   }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter2/UI/WidgetUtils/CustomTab.dart';
 import 'package:flutter2/UI/SearchWidgets/SearchScreen.dart';
-import 'package:flutter2/UI/NitnemWidgets/NitnemNavigatorPage.dart';
+import 'package:flutter2/UI/NitnemWidgets/BaniList.dart';
 
 class Tabbed extends StatefulWidget {
   @override
@@ -19,13 +19,13 @@ class _TabbedState extends State<Tabbed> {
       child: SearchScreen(),
     ),
     CustomTab(
-      child: NitnemNavigatorPage(),
+      child: BaniList(),
     ),
     CustomTab(
       child: SearchScreen(),
     ),
     CustomTab(
-      child: NitnemNavigatorPage(),
+      child: BaniList(),
     ),
   ];
 

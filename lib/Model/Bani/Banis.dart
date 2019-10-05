@@ -1,5 +1,6 @@
 import 'package:flutter2/Model/Bani/IBani.dart';
 
+/// All the supported banis
 class JapjiSahib implements IBani {
   @override
   int id() => 1;

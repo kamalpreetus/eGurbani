@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter2/Model/Bani/IBani.dart';
-import 'package:flutter2/Model/Choices.dart';
+import 'package:flutter2/Model/QueryChoices.dart';
 import 'package:flutter2/Model/QueryResult.dart';
 import 'package:flutter2/Model/databaseReader.dart';
 
@@ -44,7 +44,7 @@ class BaniWidgetState extends State<BaniWidget> {
 //      }
 //    });
 
-    this.widget.queryResultList = db.runQuery(Choices.Bani, this.widget.bani.id().toString());
+    this.widget.queryResultList = db.runQuery(QueryChoices.Bani, this.widget.bani.id().toString());
   }
 
   /// Helper function for hiding appbar on scroll
