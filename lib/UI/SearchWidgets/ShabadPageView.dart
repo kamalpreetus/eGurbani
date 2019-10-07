@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter2/Model/Shabad/ShabadFinder.dart';
 
 class ShabadPageView extends StatefulWidget {
 
-  int shabadID;
+  String shabadID;
   ShabadPageView(this.shabadID);
 
   @override
@@ -11,6 +12,10 @@ class ShabadPageView extends StatefulWidget {
 class ShabadList extends State<ShabadPageView> {
   @override
   Widget build (BuildContext ctxt) {
+
+    ShabadFinder shabadFinder = new ShabadFinder();
+    shabadFinder.generateShabadLine(this.widget.shabadID);
+
     return new Scaffold(
       body: new Column(
         children: <Widget>[

@@ -12,7 +12,7 @@ class DatabaseReader
   final String DB_NAME = "shabados.sqlite";
 
   ///
-  /// Returns the database. Make sure you close the Database after
+  /// Returns the query. Make sure you close the Database after
   /// using it.
   Future<List<QueryResult>> runQuery(QueryChoices choices, String userInput) async {
 
@@ -20,9 +20,13 @@ class DatabaseReader
     List<QueryResult> resultList = new List<QueryResult>();
     List<Map> resultFromDB = new List<Map>();
 
-
-
     switch(choices) {
+      case QueryChoices.ShabadID:
+        resultFromDB = await db.rawQuery(''
+            'SELECT * FROM lines '
+            'WHERE shabad_id = "$userInput" '
+            'ORDER BY order_id');
+        break;
       case QueryChoices.Ang:
         return null;
       case QueryChoices.FirstLetterStart:
@@ -58,6 +62,49 @@ class DatabaseReader
     }
 
     return resultList;
+  }
+
+  ///
+  /// Returns the database. Make sure you close the Database after
+  /// using it.
+  Future<List<Map>> runQuery2(QueryChoices choices, String userInput) async {
+    Database db = await getDatabase();
+    List<QueryResult> resultList = new List<QueryResult>();
+    List<Map> resultFromDB = new List<Map>();
+
+    switch(choices) {
+      case QueryChoices.ShabadID:
+        resultFromDB = await db.rawQuery(''
+            'SELECT * FROM lines '
+            'WHERE shabad_id = "$userInput" '
+            'ORDER BY order_id');
+        break;
+      case QueryChoices.Ang:
+        return null;
+      case QueryChoices.FirstLetterStart:
+        resultFromDB = await db.rawQuery(''
+            'SELECT * FROM lines '
+            'WHERE first_letters LIKE "\%$userInput\%" '
+            'ORDER BY order_id');
+        addToresultList(resultFromDB, resultList);
+        return resultFromDB;
+      case QueryChoices.FirstLetterAnywhere:
+        return null;
+        break;
+      case QueryChoices.ExactWordGurmukhi:
+        break;
+      case QueryChoices.ExactWordEnglish:
+        break;
+      case QueryChoices.Bani:
+        resultFromDB = await db.rawQuery("SELECT * FROM lines "
+            "JOIN bani_lines ON bani_lines.line_id = lines.id "
+            "WHERE bani_lines.bani_id = $userInput "
+            "ORDER BY bani_lines.line_group, lines.order_id");
+        addToresultList(resultFromDB, resultList);
+        break;
+    }
+
+    return resultFromDB;
   }
 
   Future<List<Map>> getRehrasSahib(List<Map> resultFromDB, Database db, List<QueryResult> resultList) async {

@@ -4,5 +4,6 @@ enum QueryChoices {
   ExactWordGurmukhi,
   ExactWordEnglish,
   Ang,
-  Bani
+  Bani,
+  ShabadID
 }
