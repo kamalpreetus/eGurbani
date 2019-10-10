@@ -6,7 +6,7 @@ import 'package:flutter2/Model/databaseReader.dart';
 class ShabadFinder {
   Future<List<IShabadLine>> generateShabadLine(String shabadID) async {
     DatabaseReader db = new DatabaseReader();
-    List<Map> rawShabadResult = await db.runQuery2(QueryChoices.ShabadID, "9N9");
+    List<Map> rawShabadResult = await db.runQuery2(QueryChoices.ShabadID, shabadID);
     
     // take the raw result returned from DB and convert it to list of IShabadLines
     List<IShabadLine> shabadLines = ShabadFactory.generateShabadLinesDB(rawShabadResult);
