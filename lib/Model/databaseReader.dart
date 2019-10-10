@@ -74,10 +74,13 @@ class DatabaseReader
 
     switch(choices) {
       case QueryChoices.ShabadID:
-        resultFromDB = await db.rawQuery(''
-            'SELECT * FROM lines '
-            'WHERE shabad_id = "$userInput" '
-            'ORDER BY order_id');
+        resultFromDB = await db.rawQuery("SELECT gurmukhi, lines.shabad_id as shabad_id, "
+            "lines.source_page, lines.order_id as order_id, translations.line_id, "
+            "translations.translation_source_id, translations.translation,  translations.additional_information, "
+            "shabads.source_id, writer_id, section_id FROM lines "
+            "JOIN shabads ON shabads.id = lines.shabad_id "
+            "JOIN translations ON lines.id = translations.line_id "
+            "WHERE lines.shabad_id = '$userInput' ORDER BY lines.order_id");
         break;
       case QueryChoices.Ang:
         return null;

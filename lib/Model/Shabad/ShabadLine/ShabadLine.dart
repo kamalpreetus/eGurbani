@@ -1,13 +1,31 @@
+import 'package:flutter2/Model/Shabad/ShabadLine/IShabadLine.dart';
+import 'package:flutter2/Model/Shabad/TranslationSource.dart';
 
-/// A shabad line. This is the what each shabadline will possibly contain.
-class ShabadLine {
-  String fareedkotPunjabi;
-  String gurmukhi_shabad;
-  String manmohamSinghEnglish;
-  String manmohamSinghPunjabi;
-  String profSahibSinghPunjabi;
-  String santSinghEnglish;
-  String sikhnetSpanish;
+class ShabadLine implements IShabadLine {
 
-  ShabadLine();
+  Map<TranslationSource, String> translationsMap;
+
+  @override
+  String gurmukhiShabad;
+
+  @override
+  int orderID;
+
+  @override
+  int sourcePage;
+
+  @override
+  int sectionID;
+
+  @override
+  int writerID;
+
+  ShabadLine() {
+    translationsMap = new Map();
+  }
+
+  @override
+  void setTranslations(TranslationSource translationSource, String translation) {
+    translationsMap[translationSource] = translation;
+  }
 }

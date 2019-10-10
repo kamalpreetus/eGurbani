@@ -1,5 +1,4 @@
-import 'package:flutter2/Model/Shabad/ShabadLine/DasamGranthSahibLine.dart';
-import 'package:flutter2/Model/Shabad/ShabadLine/GuruGranthSahibLine.dart';
+import 'package:flutter2/Model/Shabad/ShabadLine/ShabadLine.dart';
 import 'package:flutter2/Model/Shabad/ShabadLine/IShabadLine.dart';
 import 'package:flutter2/Model/Shabad/ShabadSource.dart';
 import 'package:flutter2/Model/Shabad/TranslationSource.dart';
@@ -20,13 +19,13 @@ class ShabadFactory {
 
     int prevOrderID = rawShabadResult.first["order_id"];
     int curOrderID;
-    IShabadLine shabadLine = ShabadFactory.generateShabadLineFromMap(rawShabadResult.first["order_id"], sourceType);
+    IShabadLine shabadLine = ShabadFactory.generateShabadLineFromMap(rawShabadResult.first, sourceType);
 
     for (Map curShabadLine in rawShabadResult) {
 
       curOrderID = curShabadLine["order_id"];
 
-      if (haveAllTranslationBeenAddedToTheShabadLine(prevOrderID, curOrderID)) {
+      if (ShabadFactory.haveAllTranslationBeenAddedToTheShabadLine(prevOrderID, curOrderID)) {
         shabadLines.add(shabadLine);
         shabadLine = ShabadFactory.generateShabadLineFromMap(curShabadLine, sourceType);
       }
@@ -36,16 +35,17 @@ class ShabadFactory {
 
       prevOrderID = curOrderID;
     }
+
+    return shabadLines;
   }
 
   /// Determines if all the translation have been added for a shabad line.
-  /// This is a bit hacky but it works: let's use Guru Granth Sahib Ji
-  /// shabad line as an example, since the same shabad will repeat 6 times
-  /// because there are 6 translation sources, meaning that there are 6 rows
-  /// for the same shabad. When a shabad moves to the next shabad, the 'order_id'
-  /// column will increase by 1 as well, so that why [prevOrderID] and
-  /// [curOrderID] are compared here. Then, we can say that a shabad line
-  /// has been successfully been created.
+  /// Let's use Guru Granth Sahib Ji shabad line as an example, since the
+  /// same shabad will repeat 6 times because there are 6 translation sources,
+  /// meaning that there are 6 rows or the same shabad. When a shabad moves
+  /// to the next shabad, the 'order_id' column will increase by 1 as well,
+  /// so that why [prevOrderID] and [curOrderID] are compared here. Then, we
+  /// can say that a shabad line has been successfully been created.
   static bool haveAllTranslationBeenAddedToTheShabadLine(int prevOrderID, int curOrderID) {
     return prevOrderID != curOrderID;
   }
@@ -75,9 +75,9 @@ class ShabadFactory {
       case 1:
         return TranslationSource.SANT_SINGH_ENGLISH;
       case 2:
-        return TranslationSource.MANMOHAN_SINGH_PUNJABI;
-      case 3:
         return TranslationSource.MANMOHAN_SINGH_ENGLISH;
+      case 3:
+        return TranslationSource.MANMOHAN_SINGH_PUNJABI;
       case 4:
         return TranslationSource.SIKHNET_SPANISH;
       case 5:
@@ -85,47 +85,44 @@ class ShabadFactory {
       case 6:
         return TranslationSource.PROF_SAHIB_SINGH_PUNJABI;
       case 7:
-        return TranslationSource.INVALID;
+        return TranslationSource.SURINDER_SINGH_KOHLI;
+      case 8:
+        return TranslationSource.RATTAN_SINGH_JAGGI;
+      case 9:
+        return TranslationSource.SGPC;
+      case 10:
+        return TranslationSource.DR_JODH_SINGH;
+      case 11:
+        return TranslationSource.BHAI_VIR_SINGH;
+      case 12:
+      case 14:
+      case 16:
+      case 18:
+        return TranslationSource.PRITPAL_SINGH_BINDRA_ENGLISH;
+      case 13:
+      case 15:
+      case 17:
+      case 19:
+        return TranslationSource.DR_GANDA_SINGH_PUNJABI;
     }
+    
     return TranslationSource.INVALID;
   }
 
-  static IShabadLine generateShabadLineFromMap(Map curShabadLine, ShabadSource sourceType) {
+  /// Generates a shabad line for the [shabadRow] row for a given [sourceType].
+  static IShabadLine generateShabadLineFromMap(Map shabadRow, ShabadSource sourceType) {
+    String gurmukhiShabad = shabadRow["gurmukhi"];
+    int orderId = shabadRow["order_id"];
+    int writerID = shabadRow["writer_id"];
+    int sourcePage = shabadRow["source_page"];
+    int sectionID = shabadRow["section_id"]; // raag id
 
-    // additional properties: raag, source_page, gurmukhi, order_id, section_id (raag), etc.
-    bool setAdditionalPropertisOnShabadLine = true;
-
-    String gurmukhiShabad = curShabadLine["gurmukhi"];
-    int orderId = curShabadLine["order_id"];
-
-    IShabadLine shabadLine;
-
-    switch (sourceType) {
-      case ShabadSource.GURU_GRANTH_SAHIB_JI:
-        shabadLine = new GuruGranthSahibLine();
-        shabadLine.gurmukhiShabad = gurmukhiShabad;
-        shabadLine.orderID = orderId;
-        return shabadLine;
-        break;
-      case ShabadSource.DASAM_GRANTH_SAHIB_JI:
-        shabadLine = new DasamGranthSahibLine();
-        shabadLine.gurmukhiShabad = gurmukhiShabad;
-        shabadLine.orderID = orderId;
-        break;
-
-      case ShabadSource.VAARAN_BHAI_GURDAS_JI:
-        // TODO: Handle this case.
-        break;
-      case ShabadSource.KABIT_BHAI_GURDAS_JI:
-        // TODO: Handle this case.
-        break;
-      case ShabadSource.BHAI_NAND_LAL_JI:
-        // TODO: Handle this case.
-        break;
-      case ShabadSource.INVALID_SOURCE:
-        // TODO: Handle this case.
-        break;
-    }
+    IShabadLine shabadLine = new ShabadLine();
+    shabadLine.gurmukhiShabad = gurmukhiShabad;
+    shabadLine.orderID = orderId;
+    shabadLine.writerID = writerID;
+    shabadLine.sourcePage = sourcePage;
+    shabadLine.sectionID = sectionID;
 
     return shabadLine;
   }

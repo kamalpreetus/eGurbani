@@ -10,7 +10,7 @@ class ShabadFinder {
     
     // take the raw result returned from DB and convert it to list of IShabadLines
     List<IShabadLine> shabadLines = ShabadFactory.generateShabadLinesDB(rawShabadResult);
-    print(rawShabadResult.toString());
+    print("printing\t" + rawShabadResult.toString());
     return shabadLines;
   }
   
