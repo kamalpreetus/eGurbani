@@ -21,21 +21,23 @@ class ShabadFactory {
     int curOrderID;
     IShabadLine shabadLine = ShabadFactory.generateShabadLineFromMap(rawShabadResult.first, sourceType);
 
-    for (Map curShabadLine in rawShabadResult) {
+    for (Map curShabadRow in rawShabadResult) {
 
-      curOrderID = curShabadLine["order_id"];
+      curOrderID = curShabadRow["order_id"];
 
       if (ShabadFactory.haveAllTranslationBeenAddedToTheShabadLine(prevOrderID, curOrderID)) {
         shabadLines.add(shabadLine);
-        shabadLine = ShabadFactory.generateShabadLineFromMap(curShabadLine, sourceType);
+        shabadLine = ShabadFactory.generateShabadLineFromMap(curShabadRow, sourceType);
       }
       
-      TranslationSource translationSource = ShabadFactory.getTranslationSrcToAdd(curShabadLine["translation_source_id"]);
-      addTranslationsToShabadLine(shabadLine, translationSource, curShabadLine["translation"]);
+      TranslationSource translationSource = ShabadFactory.getTranslationSrcToAdd(curShabadRow["translation_source_id"]);
+      addTranslationToShabadLine(shabadLine, translationSource, curShabadRow["translation"]);
 
       prevOrderID = curOrderID;
     }
 
+    // add the last shabad line since the last instance will be skipped above.
+    shabadLines.add(shabadLine);
     return shabadLines;
   }
 
@@ -128,7 +130,7 @@ class ShabadFactory {
   }
 
   /// Sets the [translation] on the [shabadLine] for a given [translationSrcToAdd].
-  static void addTranslationsToShabadLine(IShabadLine shabadLine, TranslationSource translationSrcToAdd, String translation) {
+  static void addTranslationToShabadLine(IShabadLine shabadLine, TranslationSource translationSrcToAdd, String translation) {
     shabadLine.setTranslations(translationSrcToAdd, translation);
   }
 }
