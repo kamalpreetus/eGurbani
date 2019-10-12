@@ -1,3 +1,5 @@
+import 'package:flutter2/Model/Shabad/CompleteShabad.dart';
+import 'package:flutter2/Model/Shabad/ICompleteShabad.dart';
 import 'package:flutter2/Model/Shabad/ShabadLine/ShabadLine.dart';
 import 'package:flutter2/Model/Shabad/ShabadLine/IShabadLine.dart';
 import 'package:flutter2/Model/Shabad/ShabadSource.dart';
@@ -115,16 +117,10 @@ class ShabadFactory {
   static IShabadLine generateShabadLineFromMap(Map shabadRow, ShabadSource sourceType) {
     String gurmukhiShabad = shabadRow["gurmukhi"];
     int orderId = shabadRow["order_id"];
-    int writerID = shabadRow["writer_id"];
-    int sourcePage = shabadRow["source_page"];
-    int sectionID = shabadRow["section_id"]; // raag id
 
     IShabadLine shabadLine = new ShabadLine();
     shabadLine.gurmukhiShabad = gurmukhiShabad;
     shabadLine.orderID = orderId;
-    shabadLine.writerID = writerID;
-    shabadLine.sourcePage = sourcePage;
-    shabadLine.sectionID = sectionID;
 
     return shabadLine;
   }
@@ -132,5 +128,21 @@ class ShabadFactory {
   /// Sets the [translation] on the [shabadLine] for a given [translationSrcToAdd].
   static void addTranslationToShabadLine(IShabadLine shabadLine, TranslationSource translationSrcToAdd, String translation) {
     shabadLine.setTranslations(translationSrcToAdd, translation);
+  }
+
+  /// Generates an [ICompleteShabad] object given all [shabadLines] for a shabad and any [shabadRow]
+  /// from the database so that it can set writerID, sourcePage and sectionID properties.
+  static ICompleteShabad generateCompleteShabad(List<IShabadLine> shabadLines, Map shabadRow) {
+    ICompleteShabad completeShabad = new CompleteShabad(shabadLines);
+
+    int writerID = shabadRow["writer_id"];
+    int sourcePage = shabadRow["source_page"];
+    int sectionID = shabadRow["section_id"]; // raag id
+
+    completeShabad.writerID = writerID;
+    completeShabad.sourcePage = sourcePage;
+    completeShabad.sectionID = sectionID;
+
+    return completeShabad;
   }
 }
