@@ -5,14 +5,11 @@ import 'package:flutter2/Model/Shabad/ShabadLine/IShabadLine.dart';
 import 'package:flutter2/Model/Shabad/ShabadSource.dart';
 import 'package:flutter2/Model/Shabad/TranslationSource.dart';
 
-/// Responsible for generating IShabadLines.
+/// Responsible for creating CompleteShabad.
 class ShabadFactory {
-  IShabadLine getShabadByID(int shabadID) {
-
-  }
 
   /// Converts raw SQL output from DB to list of shabad lines.
-  static List<IShabadLine> generateShabadLinesDB(List<Map> rawShabadResult) {
+  static ICompleteShabad convertFromSqlToCompleteShabad(List<Map> rawShabadResult) {
     List<IShabadLine> shabadLines = new List();
 
     /* set the type of shabad by looking at the 'lines.source_id' column.
@@ -21,26 +18,27 @@ class ShabadFactory {
 
     int prevOrderID = rawShabadResult.first["order_id"];
     int curOrderID;
-    IShabadLine shabadLine = ShabadFactory.generateShabadLineFromMap(rawShabadResult.first, sourceType);
+    IShabadLine shabadLine = ShabadFactory._generateShabadLineFromMap(rawShabadResult.first, sourceType);
 
     for (Map curShabadRow in rawShabadResult) {
 
       curOrderID = curShabadRow["order_id"];
 
-      if (ShabadFactory.haveAllTranslationBeenAddedToTheShabadLine(prevOrderID, curOrderID)) {
+      if (ShabadFactory._haveAllTranslationBeenAddedToTheShabadLine(prevOrderID, curOrderID)) {
         shabadLines.add(shabadLine);
-        shabadLine = ShabadFactory.generateShabadLineFromMap(curShabadRow, sourceType);
+        shabadLine = ShabadFactory._generateShabadLineFromMap(curShabadRow, sourceType);
       }
       
-      TranslationSource translationSource = ShabadFactory.getTranslationSrcToAdd(curShabadRow["translation_source_id"]);
-      addTranslationToShabadLine(shabadLine, translationSource, curShabadRow["translation"]);
+      TranslationSource translationSource = ShabadFactory._getTranslationSrcToAdd(curShabadRow["translation_source_id"]);
+      _addTranslationToShabadLine(shabadLine, translationSource, curShabadRow["translation"]);
 
       prevOrderID = curOrderID;
     }
 
     // add the last shabad line since the last instance will be skipped above.
     shabadLines.add(shabadLine);
-    return shabadLines;
+
+    return ShabadFactory._generateCompleteShabad(shabadLines, rawShabadResult.first);
   }
 
   /// Determines if all the translation have been added for a shabad line.
@@ -50,7 +48,7 @@ class ShabadFactory {
   /// to the next shabad, the 'order_id' column will increase by 1 as well,
   /// so that why [prevOrderID] and [curOrderID] are compared here. Then, we
   /// can say that a shabad line has been successfully been created.
-  static bool haveAllTranslationBeenAddedToTheShabadLine(int prevOrderID, int curOrderID) {
+  static bool _haveAllTranslationBeenAddedToTheShabadLine(int prevOrderID, int curOrderID) {
     return prevOrderID != curOrderID;
   }
 
@@ -74,7 +72,7 @@ class ShabadFactory {
 
   /// Gets the translation source to be added based on the [translationSourceID]. 
   /// The mappings are based on the shabad os database.
-  static TranslationSource getTranslationSrcToAdd(int translationSourceID) {
+  static TranslationSource _getTranslationSrcToAdd(int translationSourceID) {
     switch (translationSourceID) {
       case 1:
         return TranslationSource.SANT_SINGH_ENGLISH;
@@ -114,7 +112,7 @@ class ShabadFactory {
   }
 
   /// Generates a shabad line for the [shabadRow] row for a given [sourceType].
-  static IShabadLine generateShabadLineFromMap(Map shabadRow, ShabadSource sourceType) {
+  static IShabadLine _generateShabadLineFromMap(Map shabadRow, ShabadSource sourceType) {
     String gurmukhiShabad = shabadRow["gurmukhi"];
     int orderId = shabadRow["order_id"];
 
@@ -126,13 +124,13 @@ class ShabadFactory {
   }
 
   /// Sets the [translation] on the [shabadLine] for a given [translationSrcToAdd].
-  static void addTranslationToShabadLine(IShabadLine shabadLine, TranslationSource translationSrcToAdd, String translation) {
+  static void _addTranslationToShabadLine(IShabadLine shabadLine, TranslationSource translationSrcToAdd, String translation) {
     shabadLine.setTranslations(translationSrcToAdd, translation);
   }
 
   /// Generates an [ICompleteShabad] object given all [shabadLines] for a shabad and any [shabadRow]
   /// from the database so that it can set writerID, sourcePage and sectionID properties.
-  static ICompleteShabad generateCompleteShabad(List<IShabadLine> shabadLines, Map shabadRow) {
+  static ICompleteShabad _generateCompleteShabad(List<IShabadLine> shabadLines, Map shabadRow) {
     ICompleteShabad completeShabad = new CompleteShabad(shabadLines);
 
     int writerID = shabadRow["writer_id"];

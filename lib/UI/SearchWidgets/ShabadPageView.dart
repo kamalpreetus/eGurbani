@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter2/Model/Shabad/ICompleteShabad.dart';
 import 'package:flutter2/Model/Shabad/ShabadFinder.dart';
 import 'package:flutter2/Model/Shabad/ShabadLine/IShabadLine.dart';
 
@@ -16,7 +17,7 @@ class ShabadList extends State<ShabadPageView> {
   Widget build (BuildContext ctxt) {
 
     ShabadFinder shabadFinder = new ShabadFinder();
-    Future<List<IShabadLine>> shabadLines = shabadFinder.generateShabadLine(this.widget.shabadID);
+    Future<ICompleteShabad> shabadLines = shabadFinder.generateShabadLine(this.widget.shabadID);
 
     return Scaffold (
       appBar: AppBar(
@@ -37,13 +38,13 @@ class ShabadList extends State<ShabadPageView> {
 
             print("rebuilding SSSS ");
             return ListView.builder(
-              itemCount: snapshot.data.length,
+              itemCount: snapshot.data.shabadLines.length,
               itemBuilder: (context, index) {
                 return ListTile(
                   onTap: () {
-                    Navigator.push(context, CupertinoPageRoute(builder: (context) => ShabadPageView(/* shabadId */ snapshot.data[index].shabadID)));
+                    Navigator.push(context, CupertinoPageRoute(builder: (context) => ShabadPageView(/* shabadId */ snapshot.data.shabadLines[index].orderID + 1)));
                   },
-                  title: Text(snapshot.data[index].gurmukhiShabad,
+                  title: Text(snapshot.data.shabadLines[index].gurmukhiShabad,
                       style: TextStyle(fontFamily: 'OpenGurbaniAkharBlack', fontSize: 20.0, wordSpacing: -7)),
                 );
               },

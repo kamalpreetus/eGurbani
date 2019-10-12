@@ -3,6 +3,9 @@ import 'package:flutter2/Model/Shabad/ShabadLine/IShabadLine.dart';
 
 class CompleteShabad implements ICompleteShabad {
 
+  CompleteShabad(this.shabadLines);
+
+  /// This is the raag ID
   @override
   int sectionID;
 
@@ -14,7 +17,5 @@ class CompleteShabad implements ICompleteShabad {
 
   @override
   int writerID;
-
-  CompleteShabad(this.shabadLines);
 
 }
