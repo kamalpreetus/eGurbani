@@ -32,8 +32,8 @@ class DatabaseReader
       case QueryChoices.FirstLetterStart:
         resultFromDB = await db.rawQuery(''
             'SELECT * FROM lines '
-            'WHERE first_letters LIKE "\%$userInput\%" '
-            'ORDER BY order_id');
+            'WHERE lines.first_letters GLOB "$userInput*" '
+            'ORDER BY lines.order_id ');
         addToresultList(resultFromDB, resultList);
         return resultList;
       case QueryChoices.FirstLetterAnywhere:
@@ -87,12 +87,16 @@ class DatabaseReader
       case QueryChoices.FirstLetterStart:
         resultFromDB = await db.rawQuery(''
             'SELECT * FROM lines '
-            'WHERE first_letters LIKE "\%$userInput\%" '
-            'ORDER BY order_id');
+            'WHERE lines.first_letters GLOB "$userInput*" '
+            'ORDER BY lines.order_id ');
         addToresultList(resultFromDB, resultList);
         return resultFromDB;
-      case QueryChoices.FirstLetterAnywhere:
-        return null;
+      case QueryChoices.FirstLetterAnywhere: // contains
+        resultFromDB = await db.rawQuery(''
+            'SELECT * FROM lines '
+            'WHERE lines.first_letters GLOB "*$userInput*" '
+            'ORDER BY lines.order_id ');
+        addToresultList(resultFromDB, resultList);
         break;
       case QueryChoices.ExactWordGurmukhi:
         break;

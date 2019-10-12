@@ -13,12 +13,13 @@ class SearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      style: TextStyle(fontFamily: 'OpenGurbaniAkharBlack', fontSize: 18.0),
       onChanged: (value) {},
       onTap: () {},
       controller: searchController,
       decoration: InputDecoration(
-          labelText: "Search",
-          hintText: "Search",
+          labelText: "src gurbwnI",
+          hintText: "Sbd dy pihly A`Kr ilKo",
           prefixIcon: Icon(Icons.search),
           suffixIcon: InkWell(
               borderRadius: BorderRadius.all(Radius.circular(25.0)),
