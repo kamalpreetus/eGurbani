@@ -3,6 +3,7 @@ import 'package:flutter2/Model/Shabad/TranslationSource.dart';
 
 class ShabadLine implements IShabadLine {
 
+  @override
   Map<TranslationSource, String> translationsMap;
 
   @override
