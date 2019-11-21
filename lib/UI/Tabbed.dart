@@ -19,13 +19,13 @@ class _TabbedState extends State<Tabbed> {
       child: SearchScreen(),
     ),
     CustomTab(
-      child: BaniList(),
+      child: SearchScreen(),
     ),
     CustomTab(
       child: SearchScreen(),
     ),
     CustomTab(
-      child: BaniList(),
+      child: SearchScreen(),
     ),
   ];
 

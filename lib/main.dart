@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter2/UI/HomePageWidget.dart';
 import 'package:flutter2/UI/Tabbed.dart';
 
 void main() => runApp(MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       // the home is typically a Scaffold
-      home: Tabbed(),
+      home: HomePageWidget(),
     );
   }
 }

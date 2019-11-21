@@ -100,7 +100,8 @@ class BaniWidgetState extends State<BaniWidget> {
 
                 List<InlineSpan> _children = <TextSpan>[
                   new TextSpan(text: this.widget.bani.headingInGurmukhi(), style: TextStyle(fontFamily: 'OpenGurbaniAkharBlack', fontSize: 50.0)),
-                  new TextSpan(text: "\n☬\t\t❀\t\t☬\n\n" + baniText.toString().replaceAll(new RegExp(r'[,.;]+'), "") + "\n\n☬\t\t❀\t\t☬", style: TextStyle(fontFamily: 'OpenGurbaniAkharBlack', fontSize: 25.0, wordSpacing: enableLareevar ? -8.5 : 0)),
+                  new TextSpan(text: "\n☬\t\t❀\t\t☬\n\n" + baniText.toString().replaceAll(new RegExp(r'[,.;]+'), "") + "\n\n☬\t\t❀\t\t☬",
+                      style: TextStyle(fontFamily: 'OpenGurbaniAkharBlack', fontSize: 25.0, wordSpacing: enableLareevar ? -8.5 : 0)),
                 ];
 
 
@@ -141,8 +142,8 @@ class BaniWidgetState extends State<BaniWidget> {
 }
 
 class CustomAppBar extends StatefulWidget {
-@override
-AppBarView createState() => new AppBarView();
+  @override
+  AppBarView createState() => new AppBarView();
 }
 
 class AppBarView extends State<CustomAppBar> {

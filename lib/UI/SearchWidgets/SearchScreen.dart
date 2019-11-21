@@ -14,7 +14,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  DatabaseReader db = new DatabaseReader();
+  var db = new DatabaseReader();
   final searchController = TextEditingController();
   ScrollController _listViewController = ScrollController();
   List<String> selectedOption = [];

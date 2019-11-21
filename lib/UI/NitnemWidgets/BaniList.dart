@@ -21,8 +21,6 @@ class BaniList extends StatefulWidget {
 
 class _BaniListState extends State<BaniList> {
   TextEditingController _textController;
-  Future<List<QueryResult>> queryResultList;
-
   List<IBani> banis;
 
   @override
@@ -43,7 +41,6 @@ class _BaniListState extends State<BaniList> {
     _textController = TextEditingController(
       text: 'sample text: ${widget.child}',
     );
-    queryResultList = DatabaseReader().runQuery(QueryChoices.Bani, "7");
   }
 
   @override
